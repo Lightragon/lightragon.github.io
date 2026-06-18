@@ -1,324 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lightragon</title>
-  <style>
-    body {
-      background: #fafbfc;
-      color: #2d3748;
-      font-family: "Segoe UI", -apple-system, sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      line-height: 1.7;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightragon</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #e6e6e6;
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      margin-top: 15%;
+    }
+    h1 {
+      color: #5ec0ff;
+      font-size: 3em;
+      text-shadow: 0 0 15px #5ec0ff;
+    }
+    p {
+      color: #cfcfcf;
+      font-size: 1.1em;
+    }
 
-    /* Container for layout */
-    .container {
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 60px 20px;
-    }
-
-    /* Radiant Hero Section */
-    header {
-      text-align: center;
-      margin-top: 5%;
-      margin-bottom: 60px;
-    }
-
-    h1 {
-      color: #cca43b; /* Warm, hopeful gold */
-      font-size: 3.5em;
-      font-weight: 700;
-      letter-spacing: 2px;
-      margin-bottom: 5px;
-      text-shadow: 0 0 20px rgba(242, 201, 76, 0.2);
-    }
-
-    .tagline {
-      color: #718096;
-      font-size: 1.25em;
-      font-style: italic;
-      letter-spacing: 0.5px;
-      margin-bottom: 30px;
-    }
-
-    .subtitle {
-      color: #1a202c;
-      font-size: 1.5em;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .discipline {
-      color: #3182ce; /* Bright sky blue representing clarity/hope */
-      font-size: 1.1em;
-      font-weight: 500;
-      margin-top: 5px;
-    }
-
-    hr {
-      border: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(204, 164, 59, 0.4), transparent);
-      margin: 50px 0;
-    }
-
-    /* Elegant Content Sections */
-    section {
-      text-align: left;
-      margin-bottom: 50px;
-    }
-
-    h2 {
-      color: #cca43b;
-      font-size: 1.5em;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      border-bottom: 2px solid #edf2f7;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: #4a5568;
-      font-size: 1.1em;
-    }
-
-    /* Grid for Skills */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-    }
-
-    .skills-category {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-      border: 1px solid rgba(204, 164, 59, 0.1);
-    }
-
-    .skills-category h3 {
-      color: #3182ce;
-      margin-top: 0;
-      font-size: 1.2em;
-    }
-
-    ul {
-      padding-left: 20px;
-      color: #4a5568;
-    }
-
-    ul li {
-      margin-bottom: 10px;
-    }
-
-    /* Experience & Education Cards */
-    .card {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      border-left: 4px solid #cca43b;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-      margin-bottom: 25px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-weight: 700;
-      color: #1a202c;
-      font-size: 1.2em;
-    }
-
-    .card-meta {
-      color: #3182ce;
-      font-weight: 500;
-    }
-
-    /* Contact Block Grid */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 25px;
-    }
-
-    .contact-item {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-      border: 1px solid #edf2f7;
-    }
-
-    /* ✨ BRIGHT HOPEFUL BUTTON */
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 12px 30px;
-      background: linear-gradient(135deg, #cca43b, #e5c158);
-      color: #ffffff;
-      border-radius: 30px; /* Rounded pill style for a softer look */
-      font-weight: bold;
-      text-decoration: none;
-      box-shadow: 0 5px 15px rgba(204, 164, 59, 0.3);
-      transition: all 0.3s ease;
-      letter-spacing: 0.5px;
-    }
-    
-    .btn:hover {
-      box-shadow: 0 8px 25px rgba(204, 164, 59, 0.5);
-      transform: translateY(-2px);
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 80px;
-      color: #a0aec0;
-      font-size: 0.95em;
-    }
-
-    /* Responsiveness */
-    @media (max-width: 600px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-      .card-header {
-        flex-direction: column;
-      }
-    }
-  </style>
+    /* ✅ BUTTON STYLE */
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #5ec0ff;
+      color: black;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 15px #5ec0ff;
+    }
+    .btn:hover {
+      background: #88d3ff;
+    }
+  </style>
 </head>
 <body>
+  <h1>Lightragon</h1>
+  <p>The original identity — forged from light itself.</p>
+  <p>Welcome to my official website.</p>
 
-  <div class="container">
-    
-    <!-- Hopeful Hero Header -->
-    <header>
-      <h1>Lightragon</h1>
-      <p class="tagline">The original identity — forged from light itself.</p>
-      <p class="subtitle">Dhiya Hakim Bin Sairuddin</p>
-      <div class="discipline">Biomedical Electronic Engineering ICT Professional</div>
-      <a href="mailto:dhsairuddin0308@gmail.com" class="btn">Connect via Light →</a>
-    </header>
-
-    <hr />
-
-    <!-- About Section -->
-    <section id="about">
-      <h2>✨ Vision & Purpose</h2>
-      <p>I am a dependable, instruction-focused individual who thrives on consistency and clear documentation to stay organized[cite: 1]. I value direct, honest communication and prefer following established protocols to ensure tasks are executed exactly as required[cite: 1].</p>
-      <p>While I enjoy game development as a hobby, I am professionally dedicated to technical excellence and am never shy about asking questions to get the job done right[cite: 1].</p>
-    </section>
-
-    <hr />
-
-    <!-- Skills Grid -->
-    <section id="skills">
-      <h2>⚡ Technical Core</h2>
-      <div class="skills-grid">
-        <div class="skills-category">
-          <h3>💻 Programming & Hardware</h3>
-          <ul>
-            <li><strong>C Programming:</strong> Expert in basic concept frameworks[cite: 1]</li>
-            <li><strong>Arduino:</strong> Advanced hardware configuration & development[cite: 1]</li>
-            <li><strong>Device Configuration:</strong> Proficient with intricate electronic systems[cite: 1]</li>
-          </ul>
-        </div>
-        <div class="skills-category">
-          <h3>🌐 Networking & Infrastructure</h3>
-          <ul>
-            <li><strong>Cisco Systems:</strong> Basic network configuration routing knowledge[cite: 1]</li>
-            <li><strong>Ethernet Infrastructure:</strong> Mastered crimping, termination, and troubleshooting[cite: 1]</li>
-            <li><strong>Hardware Deployments:</strong> Seamless CCTV, router, and switch installation[cite: 1]</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <hr />
-
-    <!-- Experience Timeline -->
-    <section id="experience">
-      <h2>🌱 Experience & Growth</h2>
-      
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Tanjak Technologies Sdn. Bhd</span>
-          <span class="card-meta">June 2024 - November 2024</span>
-        </div>
-        <div style="color: #3182ce; font-weight: 500; margin-bottom: 10px;">Intern Technician</div>
-        <ul>
-          <li>Assisted with Ethernet cabling, including crimping, termination, and troubleshooting[cite: 1].</li>
-          <li>Conducted maintenance and installation of CCTV systems, routers, and switches[cite: 1].</li>
-          <li>Helped with internet connection setup and resolving network issues[cite: 1].</li>
-          <li>Installed electrical devices (fans, lamps) and ensured proper wiring and safety[cite: 1].</li>
-        </ul>
-      </div>
-    </section>
-
-    <hr />
-
-    <!-- Education Section -->
-    <section id="education">
-      <h2>🎓 Foundations of Knowledge</h2>
-      
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Kolej Kemahiran Tinggi MARA Ledang</span>
-          <span class="card-meta">2022 - 2024</span>
-        </div>
-        <p style="margin: 5px 0 0 0; color: #4a5568;">Diploma in Biomedical Electronic Engineering ICT[cite: 1]</p>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">SMK Bukit Changgang</span>
-          <span class="card-meta">2015 - 2020</span>
-        </div>
-        <p style="margin: 5px 0 0 0; color: #4a5568;">Sijil Pelajaran Malaysia (SPM)[cite: 1]</p>
-      </div>
-    </section>
-
-    <hr />
-
-    <!-- Contact Grid -->
-    <section id="contact">
-      <h2>🕊️ Open Pathways</h2>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <div style="color: #cca43b; font-weight: bold;">Location</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Banting, Selangor, Malaysia</div>
-        </div>
-        <div class="contact-item">
-          <div style="color: #cca43b; font-weight: bold;">Comm-Link</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">+6010-437 4577[cite: 1]</div>
-        </div>
-        <div class="contact-item">
-          <div style="color: #cca43b; font-weight: bold;">Languages</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Melayu (Native)<br>English (Fluent)[cite: 1]</div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p>“Forged from light itself.”</p>
-      <p style="font-size: 0.85em; margin-top: 5px;">© 2026 Lightragon. All Rights Reserved.</p>
-    </footer>
-
-  </div>
+  <!-- ✅ BUTTON HERE -->
+  <a href="test.html" class="btn">Go to Test Page →</a>
 
 </body>
 </html>
+combine with this
