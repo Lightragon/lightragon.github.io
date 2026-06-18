@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dhiya Hakim Bin Sairuddin | Interactive Portfolio</title>
+  <title>Dhiya Hakim Bin Sairuddin | Portfolio Interaktif</title>
   <style>
     /* Global Reset & Variables */
     :root {
@@ -470,31 +470,32 @@
   <!-- Top Fixed Interface bar -->
   <nav class="top-nav">
     <button class="menu-trigger" onclick="toggleSidebar()">
-      <span>☰</span> <span data-lang="menuBtn">Dashboard Menu</span>
+      <!-- Renders with fallback, immediately handled by script to BM -->
+      <span>☰</span> <span data-lang="menuBtn">Menu Papan Pemuka</span>
     </button>
     <div class="lang-switcher">
-      <button class="lang-btn active" id="en-btn" onclick="setLanguage('en')">EN</button>
-      <button class="lang-btn" id="bm-btn" onclick="setLanguage('bm')">BM</button>
+      <button class="lang-btn" id="en-btn" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn active" id="bm-btn" onclick="setLanguage('bm')">BM</button>
     </div>
   </nav>
 
   <!-- Sidebar Component -->
   <div class="sidebar" id="dashboardSidebar">
     <div class="sidebar-header">
-      <span class="sidebar-title" data-lang="dashTitle">Navigation</span>
+      <span class="sidebar-title" data-lang="dashTitle">Navigasi</span>
       <button class="close-btn" onclick="toggleSidebar()">×</button>
     </div>
     <!-- Live Search Bar Filter -->
-    <input type="text" class="search-box" id="sidebarSearch" placeholder="Search sections / Cari..." onkeyup="filterSidebar()">
+    <input type="text" class="search-box" id="sidebarSearch" placeholder="Cari..." onkeyup="filterSidebar()">
     
     <ul class="sidebar-menu">
-      <li class="sidebar-item" data-search="summary ringkasan profil"><a href="#about" onclick="toggleSidebar()" data-lang="navSummary">Professional Summary</a></li>
-      <li class="sidebar-item" data-search="projects projek teras deermouse index.html fiction game video"><a href="#projects" onclick="toggleSidebar()" data-lang="navProjects">Core Projects</a></li>
-      <li class="sidebar-item" data-search="skills kemahiran technical hardware c arduino cisco"><a href="#skills" onclick="toggleSidebar()" data-lang="navSkills">Technical Skillset</a></li>
-      <li class="sidebar-item" data-search="certifications sijil professional ccna cisco"><a href="#certifications" onclick="toggleSidebar()" data-lang="navCerts">Certifications</a></li>
-      <li class="sidebar-item" data-search="experience pengalaman kerja tanjak intern"><a href="#experience" onclick="toggleSidebar()" data-lang="navExp">Work Experience</a></li>
-      <li class="sidebar-item" data-search="education pendidikan diploma kktm spm bukit changgang"><a href="#education" onclick="toggleSidebar()" data-lang="navEdu">Education History</a></li>
-      <li class="sidebar-item" data-search="contact hubungi email telefon banting"><a href="#contact" onclick="toggleSidebar()" data-lang="navContact">Contact</a></li>
+      <li class="sidebar-item" data-search="summary ringkasan profil"><a href="#about" onclick="toggleSidebar()" data-lang="navSummary">Ringkasan Profil</a></li>
+      <li class="sidebar-item" data-search="projects projek teras deermouse index.html fiction game video laboratory"><a href="#projects" onclick="toggleSidebar()" data-lang="navProjects">Projek Teras</a></li>
+      <li class="sidebar-item" data-search="skills kemahiran technical hardware c arduino cisco"><a href="#skills" onclick="toggleSidebar()" data-lang="navSkills">Kemahiran Teknikal</a></li>
+      <li class="sidebar-item" data-search="certifications sijil professional ccna cisco"><a href="#certifications" onclick="toggleSidebar()" data-lang="navCerts">Persijilan Profesional</a></li>
+      <li class="sidebar-item" data-search="experience pengalaman kerja tanjak intern"><a href="#experience" onclick="toggleSidebar()" data-lang="navExp">Pengalaman Kerja</a></li>
+      <li class="sidebar-item" data-search="education pendidikan diploma kktm spm bukit changgang"><a href="#education" onclick="toggleSidebar()" data-lang="navEdu">Sejarah Pendidikan</a></li>
+      <li class="sidebar-item" data-search="contact hubungi email telefon banting"><a href="#contact" onclick="toggleSidebar()" data-lang="navContact">Hubungi</a></li>
     </ul>
   </div>
 
@@ -506,48 +507,47 @@
     
     <header>
       <h1>Dhiya Hakim Bin Sairuddin</h1>
-      <div class="subtitle" data-lang="heroSubtitle">Biomedical Electronic Engineering ICT Graduate</div>
-      <div class="discipline" data-lang="heroDiscipline">Specializing in Hardware Configuration, Networking & Systems Maintenance</div>
-      <a href="mailto:dhsairuddin0308@gmail.com" class="btn-main" data-lang="heroCTA">Contact Me →</a>
+      <div class="subtitle" data-lang="heroSubtitle">Graduan Kejuruteraan Elektronik Bioperubatan ICT</div>
+      <div class="discipline" data-lang="heroDiscipline">Pengkhususan dalam Konfigurasi Perkakasan, Rangkaian & Penyelenggaraan Sistem</div>
+      <a href="mailto:dhsairuddin0308@gmail.com" class="btn-main" data-lang="heroCTA">Hubungi Saya →</a>
     </header>
 
     <hr />
 
     <section id="about">
-      <h2 data-lang="secSummary">Professional Summary</h2>
-      <p data-lang="summaryText">I am a dependable, instruction-focused individual who thrives on consistency and clear documentation to stay organized. I value direct, honest communication and prefer following established protocols to ensure tasks are executed exactly as required. I am professionally dedicated to technical excellence and am never shy about asking questions to get the job done right.</p>
+      <h2 data-lang="secSummary">Ringkasan Profil Profesional</h2>
+      <p data-lang="summaryText">Saya seorang individu yang boleh diharap, fokus kepada arahan, mementingkan konsistensi dan dokumentasi yang jelas untuk kekal teratur. Saya menghargai komunikasi langsung serta jujur, dan lebih gemar mengikut protokol yang ditetapkan bagi memastikan tugasan dilaksanakan dengan tepat. Saya berdedikasi sepenuhnya terhadap kecemerlangan teknikal dan sentiasa proaktif bertanya soalan demi menyelesaikan tugas dengan sempurna.</p>
     </section>
 
     <hr />
 
     <section id="projects">
-      <h2 data-lang="secProjects">Core Development & Personal Projects</h2>
+      <h2 data-lang="secProjects">Pembangunan Teras & Projek Peribadi</h2>
       <div class="project-grid">
         
         <!-- Project 1: Personal Portfolio -->
         <div class="project-card">
           <div class="cert-info">
-            <h3 data-lang="projTitle">Personal Portfolio Environment</h3>
-            <p data-lang="projDesc">An independent, front-end implementation showcasing structural layout workflows.</p>
-            <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="projRaw">✨ Built with pure, hand-coded programming capability (No AI generation).</p>
+            <h3 data-lang="projTitle">Persekitaran Portfolio Peribadi</h3>
+            <p data-lang="projDesc">Implementasi front-end bebas yang memamerkan aliran kerja struktur susun atur.</p>
+            <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="projRaw">✨ Dibina dengan keupayaan pengaturcaraan tulen berasaskan kod insani (Tanpa generasi AI).</p>
           </div>
           <div>
-            <a href="index.html" class="action-btn btn-filled" style="padding: 10px 24px;" data-lang="projBtn">Launch Personal Site 🌐</a>
+            <a href="index.html" class="action-btn btn-filled" style="padding: 10px 24px;" data-lang="projBtn">Buka Laman Peribadi 🌐</a>
           </div>
         </div>
 
-       <!-- Project 2: Video Game World of Fiction -->
-<div class="project-card">
-  <div class="cert-info">
-    <h3 data-lang="proj2Title">World of Fiction Project</h3>
-    <p data-lang="proj2Desc">A creative world-building collaborative environment designed for our upcoming video game system development.</p>
-    <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="proj2Raw">🎮 Interactive lore database and design documentation framework.</p>
-  </div>
-  <div>
-    <!-- Updated with your absolute link to cross over to the deermouse group account -->
-    <a href="https://deermouse.github.io/Laboratory/TheLaboratory.html" target="_blank" class="action-btn btn-outline" style="padding: 10px 24px;" data-lang="proj2Btn">Explore Fiction World ⚔️</a>
-  </div>
-</div>
+        <!-- Project 2: Video Game World of Fiction -->
+        <div class="project-card">
+          <div class="cert-info">
+            <h3 data-lang="proj2Title">Projek Dunia Fisyen</h3>
+            <p data-lang="proj2Desc">Persekitaran kolaboratif pembinaan dunia kreatif yang direka untuk pembangunan sistem permainan video kami yang akan datang.</p>
+            <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="proj2Raw">🎮 Pangkalan data fiksyen interaktif dan rangka kerja dokumentasi reka bentuk.</p>
+          </div>
+          <div>
+            <a href="https://deermouse.github.io/Laboratory/TheLaboratory.html" target="_blank" class="action-btn btn-outline" style="padding: 10px 24px;" data-lang="proj2Btn">Teroka Dunia Fisyen ⚔️</a>
+          </div>
+        </div>
 
       </div>
     </section>
@@ -555,22 +555,22 @@
     <hr />
 
     <section id="skills">
-      <h2 data-lang="secSkills">Technical Skillset</h2>
+      <h2 data-lang="secSkills">Kemahiran Teknikal</h2>
       <div class="skills-grid">
         <div class="skills-category">
-          <h3 data-lang="skillCat1">💻 Programming & Hardware</h3>
+          <h3 data-lang="skillCat1">💻 Pengaturcaraan & Perkakasan</h3>
           <ul>
-            <li><strong data-lang="s1">C Programming:</strong> <span data-lang="s1Desc">Expert in core basic applications</span></li>
-            <li><strong>Arduino:</strong> <span data-lang="s2Desc">Advanced hardware development & implementation</span></li>
-            <li><strong data-lang="s3">Device Configuration:</strong> <span data-lang="s3Desc">Proficient with diverse electronic equipment</span></li>
+            <li><strong data-lang="s1">Pengaturcaraan C:</strong> <span data-lang="s1Desc">Pakar dalam aplikasi asas teras</span></li>
+            <li><strong>Arduino:</strong> <span data-lang="s2Desc">Pembangunan & implementasi perkakasan Arduino lanjutan</span></li>
+            <li><strong data-lang="s3">Konfigurasi Peranti:</strong> <span data-lang="s3Desc">Mahir dengan pelbagai peralatan elektronik digital</span></li>
           </ul>
         </div>
         <div class="skills-category">
-          <h3 data-lang="skillCat2">🌐 Networking & IT Infrastructure</h3>
+          <h3 data-lang="skillCat2">🌐 Rangkaian & Infrastruktur IT</h3>
           <ul>
-            <li><strong>Cisco Systems:</strong> <span data-lang="n1Desc">Network configuration and system routing fundamentals</span></li>
-            <li><strong data-lang="n2">Ethernet Infrastructure:</strong> <span data-lang="n2Desc">Custom cabling, crimping, termination, and hardware troubleshooting</span></li>
-            <li><strong data-lang="n3">Hardware Deployments:</strong> <span data-lang="n3Desc">Installation and maintenance of routers, switches, and CCTV systems</span></li>
+            <li><strong>Cisco Systems:</strong> <span data-lang="n1Desc">Konfigurasi rangkaian dan asas penghalaan (routing) sistem Cisco</span></li>
+            <li><strong data-lang="n2">Infrastruktur Ethernet:</strong> <span data-lang="n2Desc">Pemasangan kabel tersuai, 'crimping', penamatan kabel, dan penyelesaian masalah perkakasan</span></li>
+            <li><strong data-lang="n3">Penyusunan Perkakasan:</strong> <span data-lang="n3Desc">Pemasangan dan penyelenggaraan router, suis rangkaian, dan sistem CCTV</span></li>
           </ul>
         </div>
       </div>
@@ -579,42 +579,42 @@
     <hr />
 
     <section id="certifications">
-      <h2 data-lang="secCerts">Professional Certifications</h2>
+      <h2 data-lang="secCerts">Persijilan Profesional</h2>
       <div class="cert-grid">
         
         <div class="cert-card">
           <div class="cert-info">
             <h3>CCNAv7: Enterprise Networking, Security, and Automation</h3>
-            <p><span data-lang="certIssued">Issued by</span>: <strong>Cisco Networking Academy</strong> • June 12, 2024</p>
+            <p><span data-lang="certIssued">Dikeluarkan oleh</span>: <strong>Cisco Networking Academy</strong> • June 12, 2024</p>
             <p style="font-size: 0.85em; color: var(--text-light); font-family: monospace;">Cert ID: 0422bdde-f605-4d8e-a8e2-b75a51624364</p>
           </div>
           <div class="cert-actions">
-            <a href="CCNA-_Enterprise_Networking-_Security-_and_Automation_certificate_dhsairuddin0308-gmail-com_0422bdde-f605-4d8e-a8e2-b75a51624364.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">View PDF Certificate 📄</a>
-            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Verify Credly Badge ↗</a>
+            <a href="CCNA-_Enterprise_Networking-_Security-_and_Automation_certificate_dhsairuddin0308-gmail-com_0422bdde-f605-4d8e-a8e2-b75a51624364.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">Lihat Sijil PDF 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Sahkan Lencana Credly ↗</a>
           </div>
         </div>
 
         <div class="cert-card">
           <div class="cert-info">
             <h3>CCNAv7: Switching, Routing, and Wireless Essentials</h3>
-            <p><span data-lang="certIssued">Issued by</span>: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
+            <p><span data-lang="certIssued">Dikeluarkan oleh</span>: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
             <p style="font-size: 0.85em; color: var(--text-light); font-family: monospace;">Cert ID: c82b82dc-62a3-4ab3-b757-2b9e445b1b34</p>
           </div>
           <div class="cert-actions">
-            <a href="CCNA-_Switching-_Routing-_and_Wireless_Essentials_certificate_dhsairuddin0308-gmail-com_c82b82dc-62a3-4ab3-b757-2b9e445b1b34.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">View PDF Certificate 📄</a>
-            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Verify Credly Badge ↗</a>
+            <a href="CCNA-_Switching-_Routing-_and_Wireless_Essentials_certificate_dhsairuddin0308-gmail-com_c82b82dc-62a3-4ab3-b757-2b9e445b1b34.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">Lihat Sijil PDF 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Sahkan Lencana Credly ↗</a>
           </div>
         </div>
 
         <div class="cert-card">
           <div class="cert-info">
             <h3>CCNAv7: Introduction to Networks</h3>
-            <p><span data-lang="certIssued">Issued by</span>: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
+            <p><span data-lang="certIssued">Dikeluarkan oleh</span>: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
             <p style="font-size: 0.85em; color: var(--text-light); font-family: monospace;">Cert ID: 40586b0e-1869-4622-bda4-e1139176f4db</p>
           </div>
           <div class="cert-actions">
-            <a href="CCNA-_Introduction_to_Networks_certificate_dhsairuddin0308-gmail-com_40586b0e-1869-4622-bda4-e1139176f4db.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">View PDF Certificate 📄</a>
-            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Verify Credly Badge ↗</a>
+            <a href="CCNA-_Introduction_to_Networks_certificate_dhsairuddin0308-gmail-com_40586b0e-1869-4622-bda4-e1139176f4db.pdf" target="_blank" class="action-btn btn-filled" data-lang="btnViewPdf">Lihat Sijil PDF 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline" data-lang="btnVerifyBadge">Sahkan Lencana Credly ↗</a>
           </div>
         </div>
 
@@ -624,18 +624,18 @@
     <hr />
 
     <section id="experience">
-      <h2 data-lang="secExp">Work Experience</h2>
+      <h2 data-lang="secExp">Pengalaman Kerja</h2>
       <div class="card">
         <div class="card-header">
           <span class="card-title">Tanjak Technologies Sdn. Bhd</span>
-          <span class="card-meta" data-lang="expDate">June 2024 - November 2024</span>
+          <span class="card-meta" data-lang="expDate">Jun 2024 - November 2024</span>
         </div>
-        <div style="color: var(--blue-main); font-weight: 500; margin-bottom: 10px;" data-lang="expRole">Intern Technician</div>
+        <div style="color: var(--blue-main); font-weight: 500; margin-bottom: 10px;" data-lang="expRole">Juruteknik Pelatih (Intern)</div>
         <ul>
-          <li data-lang="exp1">Assisted with Ethernet cabling, including crimping, termination, and troubleshooting.</li>
-          <li data-lang="exp2">Conducted maintenance and installation of CCTV systems, routers, and network switches.</li>
-          <li data-lang="exp3">Helped with internet connection setup and resolving live network connectivity issues.</li>
-          <li data-lang="exp4">Installed vital electrical devices and ensured adherence to wiring security and safety protocols.</li>
+          <li data-lang="exp1">Membantu dalam kerja pendawaian kabel Ethernet, termasuk proses crimping, termination, dan baik pulih.</li>
+          <li data-lang="exp2">Mengendalikan penyelenggaraan dan pemasangan sistem CCTV, router, dan suis rangkaian.</li>
+          <li data-lang="exp3">Membantu tetapan sambungan internet dan menyelesaikan isu sambungan rangkaian secara langsung.</li>
+          <li data-lang="exp4">Memasang peranti elektrik utama serta memastikan pematuhan ketat terhadap protokol keselamatan pendawaian.</li>
         </ul>
       </div>
     </section>
@@ -643,14 +643,14 @@
     <hr />
 
     <section id="education">
-      <h2 data-lang="secEdu">Education History</h2>
+      <h2 data-lang="secEdu">Sejarah Pendidikan</h2>
       
       <div class="card">
         <div class="card-header">
           <span class="card-title">Kolej Kemahiran Tinggi MARA Ledang</span>
           <span class="card-meta">2022 - 2024</span>
         </div>
-        <p style="margin: 5px 0 0 0; color: var(--text-muted);" data-lang="edu1">Diploma in Biomedical Electronic Engineering ICT</p>
+        <p style="margin: 5px 0 0 0; color: var(--text-muted);" data-lang="edu1">Diploma Kejuruteraan Elektronik Bioperubatan ICT</p>
       </div>
 
       <div class="card">
@@ -665,19 +665,19 @@
     <hr />
 
     <section id="contact">
-      <h2 data-lang="secContact">Contact Information</h2>
+      <h2 data-lang="secContact">Maklumat Hubungan</h2>
       <div class="contact-grid">
         <div class="contact-item">
-          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLoc">Location</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLoc">Lokasi</div>
           <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted);">Banting, Selangor, Malaysia</div>
         </div>
         <div class="contact-item">
-          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cPhone">Contact Number</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cPhone">Nombor Telefon</div>
           <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted); text-decoration: none;">+6010-437 4577</div>
         </div>
         <div class="contact-item">
-          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLang">Languages</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted);" data-lang="cLangDesc">Melayu (Native)<br>English (Fluent)</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLang">Bahasa</div>
+          <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted);" data-lang="cLangDesc">Melayu (Bahasa Ibunda)<br>Inggeris (Fasih)</div>
         </div>
       </div>
     </section>
@@ -843,6 +843,11 @@
         }
       });
     }
+
+    // Force the page to boot up using Malay text instantly upon loading
+    window.addEventListener('DOMContentLoaded', () => {
+      setLanguage('bm');
+    });
   </script>
 </body>
 </html>
