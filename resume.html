@@ -45,7 +45,7 @@
     }
 
     .discipline {
-      color: #3182ce; /* Bright sky blue representing clarity */
+      color: #3182ce; /* Bright sky blue */
       font-size: 1.1em;
       font-weight: 500;
       margin-top: 5px;
@@ -77,6 +77,20 @@
     p {
       color: #4a5568;
       font-size: 1.1em;
+    }
+
+    /* Showcase card for Personal Website */
+    .project-card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid rgba(49, 130, 206, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     /* Grid for Skills */
@@ -137,7 +151,7 @@
       font-weight: 500;
     }
 
-    /* Certificate Badges View */
+    /* Certificate View with Double Action Buttons */
     .cert-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -146,7 +160,7 @@
 
     .cert-card {
       background: #ffffff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
       border: 1px solid #edf2f7;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
@@ -154,13 +168,18 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
+    }
+
+    .cert-info {
+      flex: 1;
+      min-width: 280px;
     }
 
     .cert-info h3 {
       margin: 0;
       color: #1a202c;
-      font-size: 1.1em;
+      font-size: 1.15em;
     }
 
     .cert-info p {
@@ -169,22 +188,44 @@
       color: #718096;
     }
 
-    .badge-btn {
+    .cert-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
       display: inline-block;
       padding: 8px 16px;
-      background: #ffffff;
-      color: #3182ce;
-      border: 1px solid #3182ce;
       border-radius: 20px;
-      font-size: 0.9em;
+      font-size: 0.85em;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease;
+      text-align: center;
     }
 
-    .badge-btn:hover {
+    /* Primary Filled Button for Actions */
+    .btn-filled {
       background: #3182ce;
       color: #ffffff;
+      border: 1px solid #3182ce;
+    }
+
+    .btn-filled:hover {
+      background: #2b6cb0;
+      border-color: #2b6cb0;
+    }
+
+    /* Outline Button for Badge Verification */
+    .btn-outline {
+      background: #ffffff;
+      color: #3182ce;
+      border: 1px solid #3182ce;
+    }
+
+    .btn-outline:hover {
+      background: rgba(49, 130, 206, 0.05);
     }
 
     /* Contact Block Grid */
@@ -204,8 +245,8 @@
       border: 1px solid #edf2f7;
     }
 
-    /* ✨ BRIGHT HOPEFUL BUTTON */
-    .btn {
+    /* Main CTA Button */
+    .btn-main {
       display: inline-block;
       margin-top: 25px;
       padding: 12px 30px;
@@ -219,7 +260,7 @@
       letter-spacing: 0.5px;
     }
     
-    .btn:hover {
+    .btn-main:hover {
       box-shadow: 0 8px 25px rgba(204, 164, 59, 0.5);
       transform: translateY(-2px);
     }
@@ -232,18 +273,16 @@
     }
 
     /* Responsiveness */
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       .skills-grid {
         grid-template-columns: 1fr;
       }
-      .card-header, .cert-card {
+      .card-header, .cert-card, .project-card {
         flex-direction: column;
         align-items: flex-start;
       }
-      .badge-btn {
+      .cert-actions, .action-btn {
         width: 100%;
-        text-align: center;
-        box-sizing: border-box;
       }
     }
   </style>
@@ -254,10 +293,10 @@
     
     <!-- Professional Header -->
     <header>
-      <h1>Dhiya Hakim Bin Sairuddin</h1>[cite: 1]
-      <div class="subtitle">Biomedical Electronic Engineering ICT Graduate</div>[cite: 1]
+      <h1>Dhiya Hakim Bin Sairuddin</h1>
+      <div class="subtitle">Biomedical Electronic Engineering ICT Graduate</div>
       <div class="discipline">Specializing in Hardware Configuration, Networking & Systems Maintenance</div>
-      <a href="mailto:dhsairuddin0308@gmail.com" class="btn">Contact Me →</a>[cite: 1]
+      <a href="mailto:dhsairuddin0308@gmail.com" class="btn-main">Contact Me →</a>
     </header>
 
     <hr />
@@ -265,7 +304,24 @@
     <!-- Professional Profile Section -->
     <section id="about">
       <h2>Professional Summary</h2>
-      <p>I am a dependable, instruction-focused individual who thrives on consistency and clear documentation to stay organized[cite: 1]. I value direct, honest communication and prefer following established protocols to ensure tasks are executed exactly as required[cite: 1]. I am professionally dedicated to technical excellence and am never shy about asking questions to get the job done right[cite: 1].</p>
+      <p>I am a dependable, instruction-focused individual who thrives on consistency and clear documentation to stay organized. I value direct, honest communication and prefer following established protocols to ensure tasks are executed exactly as required. I am professionally dedicated to technical excellence and am never shy about asking questions to get the job done right.</p>
+    </section>
+
+    <hr />
+
+    <!-- Raw Ability Showcase Section -->
+    <section id="projects">
+      <h2>Core Development & Personal Projects</h2>
+      <div class="project-card">
+        <div class="cert-info">
+          <h3>Personal Portfolio Environment</h3>
+          <p>An independent, front-end implementation showcasing structural layout workflows.</p>
+          <p style="font-size: 0.88em; color: #3182ce; font-weight: 500; margin-top: 6px;">✨ Built with pure, hand-coded programming capability (No AI generation).</p>
+        </div>
+        <div>
+          <a href="test.html" class="action-btn btn-filled" style="padding: 10px 24px;">Launch Personal Site 🌐</a>
+        </div>
+      </div>
     </section>
 
     <hr />
@@ -277,17 +333,17 @@
         <div class="skills-category">
           <h3>💻 Programming & Hardware</h3>
           <ul>
-            <li><strong>C Programming:</strong> Expert in core basic applications[cite: 1]</li>
-            <li><strong>Arduino:</strong> Advanced hardware development & implementation[cite: 1]</li>
-            <li><strong>Device Configuration:</strong> Proficient with diverse electronic equipment[cite: 1]</li>
+            <li><strong>C Programming:</strong> Expert in core basic applications</li>
+            <li><strong>Arduino:</strong> Advanced hardware development & implementation</li>
+            <li><strong>Device Configuration:</strong> Proficient with diverse electronic equipment</li>
           </ul>
         </div>
         <div class="skills-category">
           <h3>🌐 Networking & IT Infrastructure</h3>
           <ul>
-            <li><strong>Cisco Systems:</strong> Network configuration and system routing fundamentals[cite: 1]</li>
-            <li><strong>Ethernet Infrastructure:</strong> Custom cabling, crimping, termination, and hardware troubleshooting[cite: 1]</li>
-            <li><strong>Hardware Deployments:</strong> Installation and maintenance of routers, switches, and CCTV systems[cite: 1]</li>
+            <li><strong>Cisco Systems:</strong> Network configuration and system routing fundamentals</li>
+            <li><strong>Ethernet Infrastructure:</strong> Custom cabling, crimping, termination, and hardware troubleshooting</li>
+            <li><strong>Hardware Deployments:</strong> Installation and maintenance of routers, switches, and CCTV systems</li>
           </ul>
         </div>
       </div>
@@ -300,34 +356,43 @@
       <h2>Professional Certifications</h2>
       <div class="cert-grid">
         
-        <!-- Cert 1 -->
+        <!-- Certification Entry 1 -->
         <div class="cert-card">
           <div class="cert-info">
             <h3>CCNAv7: Enterprise Networking, Security, and Automation</h3>
-            <p>Issued by: <strong>Cisco Networking Academy</strong> • June 12, 2024</p>[cite: 2]
-            <p style="font-size: 0.85em; color: #a0aec0;">ID: 0422bdde-f605-4d8e-a8e2-b75a51624364</p>[cite: 2]
+            <p>Issued by: <strong>Cisco Networking Academy</strong> • June 12, 2024</p>
+            <p style="font-size: 0.85em; color: #a0aec0; font-family: monospace;">Cert ID: 0422bdde-f605-4d8e-a8e2-b75a51624364</p>
           </div>
-          <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="badge-btn">Verify Badge ↗</a>[cite: 2]
+          <div class="cert-actions">
+            <a href="CCNA-_Enterprise_Networking-_Security-_and_Automation_certificate_dhsairuddin0308-gmail-com_0422bdde-f605-4d8e-a8e2-b75a51624364.pdf" target="_blank" class="action-btn btn-filled">View PDF Certificate 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline">Verify Credly Badge ↗</a>
+          </div>
         </div>
 
-        <!-- Cert 2 -->
+        <!-- Certification Entry 2 -->
         <div class="cert-card">
           <div class="cert-info">
-            <h3>CCNAv7: Switching, Routing, and Wireless Essentials</h3>[cite: 4]
-            <p>Issued by: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>[cite: 4]
-            <p style="font-size: 0.85em; color: #a0aec0;">ID: c82b82dc-62a3-4ab3-b757-2b9e445b1b34</p>[cite: 4]
+            <h3>CCNAv7: Switching, Routing, and Wireless Essentials</h3>
+            <p>Issued by: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
+            <p style="font-size: 0.85em; color: #a0aec0; font-family: monospace;">Cert ID: c82b82dc-62a3-4ab3-b757-2b9e445b1b34</p>
           </div>
-          <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="badge-btn">Verify Badge ↗</a>[cite: 2]
+          <div class="cert-actions">
+            <a href="CCNA-_Switching-_Routing-_and_Wireless_Essentials_certificate_dhsairuddin0308-gmail-com_c82b82dc-62a3-4ab3-b757-2b9e445b1b34.pdf" target="_blank" class="action-btn btn-filled">View PDF Certificate 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline">Verify Credly Badge ↗</a>
+          </div>
         </div>
 
-        <!-- Cert 3 -->
+        <!-- Certification Entry 3 -->
         <div class="cert-card">
           <div class="cert-info">
-            <h3>CCNAv7: Introduction to Networks</h3>[cite: 3]
-            <p>Issued by: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>[cite: 3]
-            <p style="font-size: 0.85em; color: #a0aec0;">ID: 40586b0e-1869-4622-bda4-e1139176f4db</p>[cite: 3]
+            <h3>CCNAv7: Introduction to Networks</h3>
+            <p>Issued by: <strong>Cisco Networking Academy</strong> • January 8, 2024</p>
+            <p style="font-size: 0.85em; color: #a0aec0; font-family: monospace;">Cert ID: 40586b0e-1869-4622-bda4-e1139176f4db</p>
           </div>
-          <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="badge-btn">Verify Badge ↗</a>[cite: 2]
+          <div class="cert-actions">
+            <a href="CCNA-_Introduction_to_Networks_certificate_dhsairuddin0308-gmail-com_40586b0e-1869-4622-bda4-e1139176f4db.pdf" target="_blank" class="action-btn btn-filled">View PDF Certificate 📄</a>
+            <a href="https://www.credly.com/badges/9ba8afe7-a2f5-4479-8d4d-5ee8f01a8365/public_url" target="_blank" class="action-btn btn-outline">Verify Credly Badge ↗</a>
+          </div>
         </div>
 
       </div>
@@ -341,15 +406,15 @@
       
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Tanjak Technologies Sdn. Bhd</span>[cite: 1]
-          <span class="card-meta">June 2024 - November 2024</span>[cite: 1]
+          <span class="card-title">Tanjak Technologies Sdn. Bhd</span>
+          <span class="card-meta">June 2024 - November 2024</span>
         </div>
-        <div style="color: #3182ce; font-weight: 500; margin-bottom: 10px;">Intern Technician</div>[cite: 1]
+        <div style="color: #3182ce; font-weight: 500; margin-bottom: 10px;">Intern Technician</div>
         <ul>
-          <li>Assisted with Ethernet cabling, including crimping, termination, and troubleshooting[cite: 1].</li>
-          <li>Conducted maintenance and installation of CCTV systems, routers, and network switches[cite: 1].</li>
-          <li>Helped with internet connection setup and resolving live network connectivity issues[cite: 1].</li>
-          <li>Installed vital electrical devices and ensured adherence to wiring security and safety protocols[cite: 1].</li>
+          <li>Assisted with Ethernet cabling, including crimping, termination, and troubleshooting.</li>
+          <li>Conducted maintenance and installation of CCTV systems, routers, and network switches.</li>
+          <li>Helped with internet connection setup and resolving live network connectivity issues.</li>
+          <li>Installed vital electrical devices and ensured adherence to wiring security and safety protocols.</li>
         </ul>
       </div>
     </section>
@@ -362,18 +427,18 @@
       
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Kolej Kemahiran Tinggi MARA Ledang</span>[cite: 1]
-          <span class="card-meta">2022 - 2024</span>[cite: 1]
+          <span class="card-title">Kolej Kemahiran Tinggi MARA Ledang</span>
+          <span class="card-meta">2022 - 2024</span>
         </div>
-        <p style="margin: 5px 0 0 0; color: #4a5568;">Diploma in Biomedical Electronic Engineering ICT[cite: 1]</p>
+        <p style="margin: 5px 0 0 0; color: #4a5568;">Diploma in Biomedical Electronic Engineering ICT</p>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <span class="card-title">SMK Bukit Changgang</span>[cite: 1]
-          <span class="card-meta">2015 - 2020</span>[cite: 1]
+          <span class="card-title">SMK Bukit Changgang</span>
+          <span class="card-meta">2015 - 2020</span>
         </div>
-        <p style="margin: 5px 0 0 0; color: #4a5568;">Sijil Pelajaran Malaysia (SPM)[cite: 1]</p>
+        <p style="margin: 5px 0 0 0; color: #4a5568;">Sijil Pelajaran Malaysia (SPM)</p>
       </div>
     </section>
 
@@ -385,15 +450,15 @@
       <div class="contact-grid">
         <div class="contact-item">
           <div style="color: #cca43b; font-weight: bold;">Location</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Banting, Selangor, Malaysia</div>[cite: 1]
+          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Banting, Selangor, Malaysia</div>
         </div>
         <div class="contact-item">
           <div style="color: #cca43b; font-weight: bold;">Contact Number</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">+6010-437 4577</div>[cite: 1]
+          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">+6010-437 4577</div>
         </div>
         <div class="contact-item">
           <div style="color: #cca43b; font-weight: bold;">Languages</div>
-          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Melayu (Native)<br>English (Fluent)</div>[cite: 1]
+          <div style="font-size: 0.95em; margin-top: 5px; color: #4a5568;">Melayu (Native)<br>English (Fluent)</div>
         </div>
       </div>
     </section>
