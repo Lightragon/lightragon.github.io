@@ -7,10 +7,13 @@
   <style>
     /* Global Reset & Variables */
     :root {
-      --gold: #cca43b;
-      --gold-hover: #e5c158;
-      --blue: #3182ce;
-      --blue-hover: #2b6cb0;
+      /* Multi-tonal Professional Blue Palette */
+      --blue-dark: #1e3a8a;
+      --blue-main: #2563eb;
+      --blue-hover: #1d4ed8;
+      --blue-light: #eff6ff;
+      --blue-border: #bfdbfe;
+      
       --bg: #fafbfc;
       --card-bg: #ffffff;
       --text-main: #2d3748;
@@ -97,7 +100,7 @@
 
     .lang-btn.active {
       background: var(--card-bg);
-      color: var(--blue);
+      color: var(--blue-main);
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
@@ -130,7 +133,7 @@
 
     .sidebar-title {
       font-weight: 700;
-      color: var(--gold);
+      color: var(--blue-dark);
       font-size: 1.1em;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -159,7 +162,7 @@
     }
 
     .search-box:focus {
-      border-color: var(--blue);
+      border-color: var(--blue-main);
     }
 
     /* Sidebar Navigation Links */
@@ -182,8 +185,8 @@
     }
 
     .sidebar-item a:hover {
-      background: rgba(49, 130, 206, 0.05);
-      color: var(--blue);
+      background: var(--blue-light);
+      color: var(--blue-main);
       padding-left: 20px;
     }
 
@@ -218,7 +221,7 @@
     }
 
     h1 {
-      color: var(--gold);
+      color: var(--blue-dark);
       font-size: 2.8em;
       font-weight: 700;
       letter-spacing: 0.5px;
@@ -232,7 +235,7 @@
     }
 
     .discipline {
-      color: var(--blue);
+      color: var(--blue-main);
       font-size: 1.05em;
       font-weight: 500;
       margin-top: 6px;
@@ -241,7 +244,7 @@
     hr {
       border: 0;
       height: 1px;
-      background: linear-gradient(to right, transparent, rgba(204, 164, 59, 0.3), transparent);
+      background: linear-gradient(to right, transparent, var(--blue-border), transparent);
       margin: 50px 0;
     }
 
@@ -250,21 +253,27 @@
     }
 
     h2 {
-      color: var(--gold);
+      color: var(--blue-dark);
       font-size: 1.3em;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 2px solid var(--blue-border);
       padding-bottom: 8px;
       margin-bottom: 24px;
     }
 
-    /* Project Showcase Card */
+    /* Project Showcase Card Layout */
+    .project-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .project-card {
       background: var(--card-bg);
       padding: 25px;
       border-radius: 12px;
-      border: 1px solid rgba(49, 130, 206, 0.15);
+      border: 1px solid var(--blue-border);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
       display: flex;
       justify-content: space-between;
@@ -285,11 +294,11 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-      border: 1px solid rgba(204, 164, 59, 0.08);
+      border: 1px solid var(--border);
     }
 
     .skills-category h3 {
-      color: var(--blue);
+      color: var(--blue-main);
       margin-bottom: 15px;
       font-size: 1.15em;
     }
@@ -308,7 +317,7 @@
       background: var(--card-bg);
       padding: 25px;
       border-radius: 12px;
-      border-left: 4px solid var(--gold);
+      border-left: 4px solid var(--blue-main);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
       margin-bottom: 25px;
     }
@@ -327,7 +336,7 @@
     }
 
     .card-meta {
-      color: var(--blue);
+      color: var(--blue-main);
       font-weight: 500;
     }
 
@@ -381,9 +390,9 @@
     }
 
     .btn-filled {
-      background: var(--blue);
+      background: var(--blue-main);
       color: #ffffff;
-      border: 1px solid var(--blue);
+      border: 1px solid var(--blue-main);
     }
 
     .btn-filled:hover {
@@ -392,30 +401,31 @@
 
     .btn-outline {
       background: transparent;
-      color: var(--blue);
-      border: 1px solid var(--blue);
+      color: var(--blue-main);
+      border: 1px solid var(--blue-main);
     }
 
     .btn-outline:hover {
-      background: rgba(49, 130, 206, 0.04);
+      background: var(--blue-light);
     }
 
     .btn-main {
       display: inline-block;
       margin-top: 25px;
       padding: 12px 30px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-hover));
+      background: var(--blue-main);
       color: #ffffff;
       border-radius: 30px;
       font-weight: bold;
       text-decoration: none;
-      box-shadow: 0 5px 15px rgba(204, 164, 59, 0.25);
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s ease;
     }
     
     .btn-main:hover {
+      background: var(--blue-hover);
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(204, 164, 59, 0.35);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
     }
 
     /* Contact Details Grid */
@@ -479,7 +489,7 @@
     
     <ul class="sidebar-menu">
       <li class="sidebar-item" data-search="summary ringkasan profil"><a href="#about" onclick="toggleSidebar()" data-lang="navSummary">Professional Summary</a></li>
-      <li class="sidebar-item" data-search="projects projek raw test.html"><a href="#projects" onclick="toggleSidebar()" data-lang="navProjects">Core Projects</a></li>
+      <li class="sidebar-item" data-search="projects projek teras deermouse index.html fiction game video"><a href="#projects" onclick="toggleSidebar()" data-lang="navProjects">Core Projects</a></li>
       <li class="sidebar-item" data-search="skills kemahiran technical hardware c arduino cisco"><a href="#skills" onclick="toggleSidebar()" data-lang="navSkills">Technical Skillset</a></li>
       <li class="sidebar-item" data-search="certifications sijil professional ccna cisco"><a href="#certifications" onclick="toggleSidebar()" data-lang="navCerts">Certifications</a></li>
       <li class="sidebar-item" data-search="experience pengalaman kerja tanjak intern"><a href="#experience" onclick="toggleSidebar()" data-lang="navExp">Work Experience</a></li>
@@ -512,15 +522,32 @@
 
     <section id="projects">
       <h2 data-lang="secProjects">Core Development & Personal Projects</h2>
-      <div class="project-card">
-        <div class="cert-info">
-          <h3 data-lang="projTitle">Personal Portfolio Environment</h3>
-          <p data-lang="projDesc">An independent, front-end implementation showcasing structural layout workflows.</p>
-          <p style="font-size: 0.88em; color: var(--blue); font-weight: 500; margin-top: 6px;" data-lang="projRaw">✨ Built with pure, hand-coded programming capability (No AI generation).</p>
+      <div class="project-grid">
+        
+        <!-- Project 1: Personal Portfolio -->
+        <div class="project-card">
+          <div class="cert-info">
+            <h3 data-lang="projTitle">Personal Portfolio Environment</h3>
+            <p data-lang="projDesc">An independent, front-end implementation showcasing structural layout workflows.</p>
+            <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="projRaw">✨ Built with pure, hand-coded programming capability (No AI generation).</p>
+          </div>
+          <div>
+            <a href="index.html" class="action-btn btn-filled" style="padding: 10px 24px;" data-lang="projBtn">Launch Personal Site 🌐</a>
+          </div>
         </div>
-        <div>
-          <a href="test.html" class="action-btn btn-filled" style="padding: 10px 24px;" data-lang="projBtn">Launch Personal Site 🌐</a>
+
+        <!-- Project 2: Video Game World of Fiction -->
+        <div class="project-card">
+          <div class="cert-info">
+            <h3 data-lang="proj2Title">World of Fiction Project</h3>
+            <p data-lang="proj2Desc">A creative world-building collaborative environment designed for our upcoming video game system development.</p>
+            <p style="font-size: 0.88em; color: var(--blue-main); font-weight: 500; margin-top: 6px;" data-lang="proj2Raw">🎮 Interactive lore database and design documentation framework.</p>
+          </div>
+          <div>
+            <a href="index.html" class="action-btn btn-outline" style="padding: 10px 24px;" data-lang="proj2Btn">Explore Fiction World ⚔️</a>
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -602,7 +629,7 @@
           <span class="card-title">Tanjak Technologies Sdn. Bhd</span>
           <span class="card-meta" data-lang="expDate">June 2024 - November 2024</span>
         </div>
-        <div style="color: var(--blue); font-weight: 500; margin-bottom: 10px;" data-lang="expRole">Intern Technician</div>
+        <div style="color: var(--blue-main); font-weight: 500; margin-bottom: 10px;" data-lang="expRole">Intern Technician</div>
         <ul>
           <li data-lang="exp1">Assisted with Ethernet cabling, including crimping, termination, and troubleshooting.</li>
           <li data-lang="exp2">Conducted maintenance and installation of CCTV systems, routers, and network switches.</li>
@@ -640,15 +667,15 @@
       <h2 data-lang="secContact">Contact Information</h2>
       <div class="contact-grid">
         <div class="contact-item">
-          <div style="color: var(--gold); font-weight: bold;" data-lang="cLoc">Location</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLoc">Location</div>
           <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted);">Banting, Selangor, Malaysia</div>
         </div>
         <div class="contact-item">
-          <div style="color: var(--gold); font-weight: bold;" data-lang="cPhone">Contact Number</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cPhone">Contact Number</div>
           <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted); text-decoration: none;">+6010-437 4577</div>
         </div>
         <div class="contact-item">
-          <div style="color: var(--gold); font-weight: bold;" data-lang="cLang">Languages</div>
+          <div style="color: var(--blue-dark); font-weight: bold;" data-lang="cLang">Languages</div>
           <div style="font-size: 0.95em; margin-top: 5px; color: var(--text-muted);" data-lang="cLangDesc">Melayu (Native)<br>English (Fluent)</div>
         </div>
       </div>
@@ -708,6 +735,10 @@
         projDesc: "An independent, front-end implementation showcasing structural layout workflows.",
         projRaw: "✨ Built with pure, hand-coded programming capability (No AI generation).",
         projBtn: "Launch Personal Site 🌐",
+        proj2Title: "World of Fiction Project",
+        proj2Desc: "A creative world-building collaborative environment designed for our upcoming video game system development.",
+        proj2Raw: "🎮 Interactive lore database and design documentation framework.",
+        proj2Btn: "Explore Fiction World ⚔️",
         secSkills: "Technical Skillset",
         skillCat1: "💻 Programming & Hardware",
         s1: "C Programming:",
@@ -726,7 +757,7 @@
         btnViewPdf: "View PDF Certificate 📄",
         btnVerifyBadge: "Verify Credly Badge ↗",
         secExp: "Work Experience",
-        expDate: "June 2024 - November 2024",
+        expDate: "Jun 2024 - November 2024",
         expRole: "Intern Technician",
         exp1: "Assisted with Ethernet cabling, including crimping, termination, and troubleshooting.",
         exp2: "Conducted maintenance and installation of CCTV systems, routers, and network switches.",
@@ -760,6 +791,10 @@
         projDesc: "Implementasi front-end bebas yang memamerkan aliran kerja struktur susun atur.",
         projRaw: "✨ Dibina dengan keupayaan pengaturcaraan tulen berasaskan kod insani (Tanpa generasi AI).",
         projBtn: "Buka Laman Peribadi 🌐",
+        proj2Title: "Projek Dunia Fisyen",
+        proj2Desc: "Persekitaran kolaboratif pembinaan dunia kreatif yang direka untuk pembangunan sistem permainan video kami yang akan datang.",
+        proj2Raw: "🎮 Pangkalan data fiksyen interaktif dan rangka kerja dokumentasi reka bentuk.",
+        proj2Btn: "Teroka Dunia Fisyen ⚔️",
         secSkills: "Kemahiran Teknikal",
         skillCat1: "💻 Pengaturcaraan & Perkakasan",
         s1: "Pengaturcaraan C:",
@@ -796,11 +831,9 @@
 
     // Rendering Engine for Dynamic Switching 
     function setLanguage(lang) {
-      // Toggle Switch UI Highlight
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById(`${lang}-btn`).classList.add('active');
       
-      // Update text nodes across the entire page DOM
       const elements = document.querySelectorAll('[data-lang]');
       elements.forEach(el => {
         const key = el.getAttribute('data-lang');
