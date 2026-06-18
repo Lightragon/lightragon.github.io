@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dhiya Hakim | Resume</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    header {
+      padding: 32px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #ffffff 0%, #f4f7fb 100%);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.05);
+      margin-bottom: 40px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .name {
+      margin: 0;
+      font-size: clamp(2.6rem, 4vw, 3.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .headline {
+      margin: 12px 0 0;
+      color: #334155;
+      font-size: 1.05rem;
+      max-width: 700px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      text-align: right;
+      font-size: 0.98rem;
+      color: #475569;
+    }
+
+    .contact-list a {
+      color: #0f172a;
+      text-decoration: none;
+    }
+
+    .button-row {
+      margin-top: 26px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: none;
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      margin: 0 0 22px;
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .summary,
+    .card,
+    .skill-card,
+    .contact-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    }
+
+    .summary {
+      padding: 28px;
+      color: #475569;
+      font-size: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .section-inner {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card,
+    .skill-card {
+      padding: 28px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      align-items: baseline;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .card-meta {
+      margin: 0;
+      color: #475569;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-role {
+      margin: 0 0 14px;
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    .card ul,
+    .skill-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: #475569;
+    }
+
+    .card ul li,
+    .skill-list li {
+      margin-bottom: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .skill-list {
+      display: grid;
+      gap: 12px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .skill-list li {
+      padding: 12px 14px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.97rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .contact-card {
+      padding: 24px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .contact-card strong {
+      color: #0f172a;
+      font-size: 0.96rem;
+    }
+
+    .contact-card span,
+    .contact-card a {
+      color: #475569;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 820px) {
+      .intro,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-list {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      main {
+        padding: 24px 18px 48px;
+      }
+
+      header {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="intro">
+        <div>
+          <h1 class="name">Dhiya Hakim Bin Sairuddin</h1>
+          <p class="headline">Biomedical Electronic Engineering ICT professional with hands-on experience in network infrastructure, electrical systems, and technical support for commercial and residential environments.</p>
+        </div>
+        <div class="contact-list">
+          <div><strong>Email</strong><br /><a href="mailto:dhsairuddin0308@gmail.com">dhsairuddin0308@gmail.com</a></div>
+          <div><strong>Phone</strong><br /><a href="tel:+60104374577">+60 10-437 4577</a></div>
+          <div><strong>Location</strong><br />Banting, Selangor, Malaysia</div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <a class="button" href="mailto:dhsairuddin0308@gmail.com">Email Me</a>
+        <a class="button" href="#education">View Education</a>
+      </div>
+    </header>
+
+    <section id="summary">
+      <h2>Professional Summary</h2>
+      <div class="summary">
+        Reliable and detail-oriented technical professional with a strong foundation in electronic systems, network installation, and hardware support. Skilled at following procedures, maintaining technical documentation, and delivering consistent results in operational settings. Ready to contribute to teams that value precision, safety, and clear technical communication.
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <div class="section-inner">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Tanjak Technologies Sdn. Bhd.</h3>
+            <p class="card-meta">June 2024 – November 2024</p>
+          </div>
+          <p class="card-role">Intern Technician</p>
+          <ul>
+            <li>Installed and tested Ethernet cabling, including termination and signal validation.</li>
+            <li>Supported CCTV, router, and switch deployments for office and commercial sites.</li>
+            <li>Troubleshot network connectivity issues and assisted with internet service configurations.</li>
+            <li>Performed electrical device setup and ensured safe wiring practices during installation.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <div class="section-inner">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Kolej Kemahiran Tinggi MARA Ledang</h3>
+            <p class="card-meta">2022 – 2024</p>
+          </div>
+          <p>Diploma in Biomedical Electronic Engineering ICT</p>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">SMK Bukit Changgang</h3>
+            <p class="card-meta">2015 – 2020</p>
+          </div>
+          <p>Sijil Pelajaran Malaysia (SPM)</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="grid-2">
+        <div class="skill-card">
+          <h3 class="card-title">Technical Skills</h3>
+          <ul class="skill-list">
+            <li>C programming fundamentals</li>
+            <li>Arduino setup and development</li>
+            <li>Ethernet cabling and network troubleshooting</li>
+            <li>CCTV and network hardware installation</li>
+            <li>Device configuration and maintenance</li>
+          </ul>
+        </div>
+        <div class="skill-card">
+          <h3 class="card-title">Professional Strengths</h3>
+          <ul class="skill-list">
+            <li>Technical documentation and process adherence</li>
+            <li>Clear communication and teamwork</li>
+            <li>Attention to detail and reliability</li>
+            <li>Problem-solving under guidance</li>
+            <li>Safety-first equipment handling</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <strong>Email</strong>
+          <span><a href="mailto:dhsairuddin0308@gmail.com">dhsairuddin0308@gmail.com</a></span>
+        </div>
+        <div class="contact-card">
+          <strong>Phone</strong>
+          <span><a href="tel:+60104374577">+60 10-437 4577</a></span>
+        </div>
+        <div class="contact-card">
+          <strong>Languages</strong>
+          <span>Melayu (Native)<br />English (Fluent)</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built to present a clean, professional technical resume online.</p>
+    </footer>
+  </main>
+</body>
+</html>
