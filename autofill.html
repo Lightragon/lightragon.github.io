@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clerk Router & QC Document Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans p-6">
+
+    <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md no-print">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-3">📋 Production Clerk Desk</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Project Name</label>
+                <input type="text" id="projName" value="Project Alpha" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50 focus:bg-white" oninput="updateDocuments()">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Product Name</label>
+                <input type="text" id="prodName" value="Enclosure Module V2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50 focus:bg-white" oninput="updateDocuments()">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Date</label>
+                <input type="date" id="docDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-50 focus:bg-white" oninput="updateDocuments()">
+            </div>
+        </div>
+
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">🔧 Component & Dimension Entry</h2>
+        <p class="text-xs text-gray-500 mb-4">Enter data here *once*. It will instantly populate both the Route Sheet and the QC Document below.</p>
+        
+        <div class="overflow-x-auto mb-6">
+            <table class="w-full text-left border-collapse" id="inputTable">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700 text-sm">
+                        <th class="p-2 border">Component Name</th>
+                        <th class="p-2 border w-24">Qty</th>
+                        <th class="p-2 border w-28">Length (mm)</th>
+                        <th class="p-2 border w-28">Width (mm)</th>
+                        <th class="p-2 border w-28">Height (mm)</th>
+                        <th class="p-2 border w-20 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="inputRows">
+                    <tr class="data-row">
+                        <td class="p-1 border"><input type="text" value="Main Base Plate" class="w-full p-1 comp-name" oninput="updateDocuments()"></td>
+                        <td class="p-1 border"><input type="number" value="2" class="w-full p-1 comp-qty" oninput="updateDocuments()"></td>
+                        <td class="p-1 border"><input type="number" value="450" class="w-full p-1 comp-l" oninput="updateDocuments()"></td>
+                        <td class="p-1 border"><input type="number" value="300" class="w-full p-1 comp-w" oninput="updateDocuments()"></td>
+                        <td class="p-1 border"><input type="number" value="12" class="w-full p-1 comp-h" oninput="updateDocuments()"></td>
+                        <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <button onclick="addRow()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition mb-6">+ Add Component</button>
+
+        <div class="flex gap-4 bg-gray-50 p-4 rounded-lg border">
+            <button onclick="exportToExcel()" class="bg-green-600 text-white px-5 py-2.5 rounded font-medium shadow hover:bg-green-700 transition flex items-center gap-2">
+                📥 Export Both to Excel (.xlsx)
+            </button>
+            <button onclick="exportToPDF()" class="bg-red-600 text-white px-5 py-2.5 rounded font-medium shadow hover:bg-red-700 transition flex items-center gap-2">
+                📄 Download Documents as PDF
+            </button>
+        </div>
+    </div>
+
+    <div id="printArea" class="max-w-6xl mx-auto mt-10 space-y-12">
+        
+        <div id="routeSheet" class="bg-white p-8 rounded-lg shadow-md border-t-8 border-blue-600">
+            <div class="flex justify-between items-start border-b-2 border-gray-200 pb-4 mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">PRODUCTION ROUTE SHEET</h1>
+                    <p class="text-sm text-gray-500">Shop Floor Tracking & Routing Document</p>
+                </div>
+                <div class="text-right text-sm text-gray-600">
+                    <p><strong>Project:</strong> <span class="view-proj"></span></p>
+                    <p><strong>Product:</strong> <span class="view-prod"></span></p>
+                    <p><strong>Date:</strong> <span class="view-date"></span></p>
+                </div>
+            </div>
+            <table class="w-full border-collapse border border-gray-300 text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 p-2 text-left">Component Item</th>
+                        <th class="border border-gray-300 p-2 text-center w-20">Qty</th>
+                        <th class="border border-gray-300 p-2 text-left">Routing Steps / Process Flow</th>
+                        <th class="border border-gray-300 p-2 text-center w-32">Sign-Off</th>
+                    </tr>
+                </thead>
+                <tbody id="routeTableBody">
+                    </tbody>
+            </table>
+        </div>
+
+        <div id="qcSheet" class="bg-white p-8 rounded-lg shadow-md border-t-8 border-teal-600">
+            <div class="flex justify-between items-start border-b-2 border-gray-200 pb-4 mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-teal-800">QUALITY CONTROL INSPECTION LOG</h1>
+                    <p class="text-sm text-gray-500">QC Inspector Dimension Verification Sheet</p>
+                </div>
+                <div class="text-right text-sm text-gray-600">
+                    <p><strong>Project:</strong> <span class="view-proj"></span></p>
+                    <p><strong>Product:</strong> <span class="view-prod"></span></p>
+                    <p><strong>Date:</strong> <span class="view-date"></span></p>
+                </div>
+            </div>
+            <table class="w-full border-collapse border border-gray-300 text-sm">
+                <thead>
+                    <tr class="bg-gray-100 text-xs">
+                        <th class="border border-gray-300 p-2 text-left" rowspan="2">Component Item</th>
+                        <th class="border border-gray-300 p-2 text-center" colspan="3">Target Specifications (mm)</th>
+                        <th class="border border-gray-300 p-2 text-center" colspan="3">Actual Measured Dimensions</th>
+                        <th class="border border-gray-300 p-2 text-center w-24" rowspan="2">Status<br>(Pass/Fail)</th>
+                    </tr>
+                    <tr class="bg-gray-50 text-xs">
+                        <th class="border border-gray-300 p-1 text-center w-16">L</th>
+                        <th class="border border-gray-300 p-1 text-center w-16">W</th>
+                        <th class="border border-gray-300 p-1 text-center w-16">H</th>
+                        <th class="border border-gray-300 p-1 text-center w-16">L</th>
+                        <th class="border border-gray-300 p-1 text-center w-16">W</th>
+                        <th class="border border-gray-300 p-1 text-center w-16">H</th>
+                    </tr>
+                </thead>
+                <tbody id="qcTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Set today's date automatically on load
+        document.getElementById('docDate').value = new Date().toISOString().split('T')[0];
+
+        function addRow() {
+            const tbody = document.getElementById('inputRows');
+            const tr = document.createElement('tr');
+            tr.className = 'data-row';
+            tr.innerHTML = `
+                <td class="p-1 border"><input type="text" placeholder="Component Name" class="w-full p-1 comp-name" oninput="updateDocuments()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 comp-qty" oninput="updateDocuments()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 comp-l" oninput="updateDocuments()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 comp-w" oninput="updateDocuments()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 comp-h" oninput="updateDocuments()"></td>
+                <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+            `;
+            tbody.appendChild(tr);
+            updateDocuments();
+        }
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            updateDocuments();
+        }
+
+        function updateDocuments() {
+            // Update Headers
+            const proj = document.getElementById('projName').value;
+            const prod = document.getElementById('prodName').value;
+            const date = document.getElementById('docDate').value;
+
+            document.querySelectorAll('.view-proj').forEach(el => el.innerText = proj);
+            document.querySelectorAll('.view-prod').forEach(el => el.innerText = prod);
+            document.querySelectorAll('.view-date').forEach(el => el.innerText = date);
+
+            // Read Rows
+            const rows = document.querySelectorAll('.data-row');
+            const routeBody = document.getElementById('routeTableBody');
+            const qcBody = document.getElementById('qcTableBody');
+
+            routeBody.innerHTML = '';
+            qcBody.innerHTML = '';
+
+            rows.forEach(row => {
+                const name = row.querySelector('.comp-name').value || '---';
+                const qty = row.querySelector('.comp-qty').value || '0';
+                const l = row.querySelector('.comp-l').value || '-';
+                const w = row.querySelector('.comp-w').value || '-';
+                const h = row.querySelector('.comp-h').value || '-';
+
+                // Append to Route Sheet (Empty process line item for manual floor tracking)
+                routeBody.innerHTML += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="border border-gray-300 p-2.5 font-medium">${name}</td>
+                        <td class="border border-gray-300 p-2.5 text-center">${qty}</td>
+                        <td class="border border-gray-300 p-2.5 text-gray-300 text-xs">1. Raw Mat. Cut [ &nbsp; ] → 2. Machining [ &nbsp; ] → 3. Finishing [ &nbsp; ]</td>
+                        <td class="border border-gray-300 p-2.5 text-center"></td>
+                    </tr>
+                `;
+
+                // Append to QC sheet (Pre-filled targets, blank spots for measured values)
+                qcBody.innerHTML += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="border border-gray-300 p-2.5 font-medium">${name} (x${qty})</td>
+                        <td class="border border-gray-300 p-2 text-center bg-gray-50 font-semibold text-gray-700">${l}</td>
+                        <td class="border border-gray-300 p-2 text-center bg-gray-50 font-semibold text-gray-700">${w}</td>
+                        <td class="border border-gray-300 p-2 text-center bg-gray-50 font-semibold text-gray-700">${h}</td>
+                        <td class="border border-gray-300 p-2"></td>
+                        <td class="border border-gray-300 p-2"></td>
+                        <td class="border border-gray-300 p-2"></td>
+                        <td class="border border-gray-300 p-2 text-center text-gray-300 text-xs">[ P ] / [ F ]</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- EXPORT ENGINES ---
+
+        function exportToExcel() {
+            const proj = document.getElementById('projName').value || 'Project';
+            const wb = XLSX.utils.book_new();
+            
+            // Format Route Sheet data for Excel
+            const routeData = [
+                ["PRODUCTION ROUTE SHEET"],
+                [`Project Name: ${proj}`, `Product: ${document.getElementById('prodName').value}`, `Date: ${document.getElementById('docDate').value}`],
+                [],
+                ["Component Item", "Qty", "Routing Steps / Process Flow", "Sign-Off"]
+            ];
+            
+            document.querySelectorAll('#routeTableBody tr').forEach(tr => {
+                const tds = tr.querySelectorAll('td');
+                if(tds.length) routeData.push([tds[0].innerText, tds[1].innerText, "1. Cut  2. Machine  3. Finish", ""]);
+            });
+
+            // Format QC Sheet data for Excel
+            const qcData = [
+                ["QUALITY CONTROL INSPECTION LOG"],
+                [`Project Name: ${proj}`, `Product: ${document.getElementById('prodName').value}`, `Date: ${document.getElementById('docDate').value}`],
+                [],
+                ["Component Item", "Target L", "Target W", "Target H", "Measured L", "Measured W", "Measured H", "Status"]
+            ];
+
+            document.querySelectorAll('.data-row').forEach(row => {
+                const name = row.querySelector('.comp-name').value;
+                const qty = row.querySelector('.comp-qty').value;
+                if(name) {
+                    qcData.push([
+                        `${name} (x${qty})`,
+                        row.querySelector('.comp-l').value,
+                        row.querySelector('.comp-w').value,
+                        row.querySelector('.comp-h').value,
+                        "", "", "", "P / F"
+                    ]);
+                }
+            });
+
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(routeData), "Route Sheet");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(qcData), "QC Inspection Log");
+            XLSX.writeFile(wb, `${proj.replace(/\s+/g, '_')}_Manufacturing_Docs.xlsx`);
+        }
+
+        function exportToPDF() {
+            const element = document.getElementById('printArea');
+            const proj = document.getElementById('projName').value || 'Document';
+            const opt = {
+                margin:       0.5,
+                filename:     `${proj.replace(/\s+/g, '_')}_Production_Packet.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Initial running calculation on base state
+        updateDocuments();
+    </script>
+</body>
+</html>
