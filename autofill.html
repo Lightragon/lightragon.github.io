@@ -18,47 +18,47 @@
 <body class="bg-slate-100 font-sans p-4 md:p-8 text-sm text-gray-800">
 
     <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-slate-200 no-print mb-8">
-        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">📋 Meja Kerani Pengeluaran (Sistem Kumpulan)</h1>
+        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">Meja Kerani Pengeluaran (Sistem Kumpulan)</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-50 p-4 rounded-lg border">
             <div>
-                <label class="block text-xs font-bold uppercase text-gray-600">Nombor WOS</label>
-                <input type="text" id="wosNo" value="WOS-2026-001" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <label class="block text-xs font-bold uppercase text-gray-600">Nombor WOS *</label>
+                <input type="text" id="wosNo" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">No Batch</label>
-                <input type="text" id="batchNo" value="BATCH-0A" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="batchNo" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Nama Mesin</label>
-                <input type="text" id="namaMesin" value="CNC Router 1" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="namaMesin" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
-                <label class="block text-xs font-bold uppercase text-gray-600">Nama Projek</label>
-                <input type="text" id="namaProjek" value="PROJEK KABINET MODULAR" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <label class="block text-xs font-bold uppercase text-gray-600">Nama Projek *</label>
+                <input type="text" id="namaProjek" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Jenis Proses</label>
-                <input type="text" id="jenisProses" value="POTONG & EDGE BAND" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="jenisProses" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
-                <label class="block text-xs font-bold uppercase text-gray-600">Nama Produk</label>
-                <input type="text" id="namaProduk" value="SET MEJA & KABINET" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <label class="block text-xs font-bold uppercase text-gray-600">Nama Produk *</label>
+                <input type="text" id="namaProduk" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Size Produk / Bil. Unit</label>
-                <input type="text" id="sizeProduk" value="Custom / 1 Lot" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="sizeProduk" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Tarikh</label>
-                <input type="date" id="tarikhDoc" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="date" id="tarikhDoc" class="w-full mt-1 p-2 border border-gray-300 rounded bg-white" oninput="renderOutputs()">
             </div>
         </div>
 
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-slate-700">📁 Pengurusan Kumpulan & Komponen</h2>
+            <h2 class="text-xl font-bold text-slate-700">Pengurusan Kumpulan & Komponen</h2>
             <button onclick="addGroup()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-bold transition">
-                + Tambah Kumpulan Baru (cth: MEJA A)
+                Tambah Kumpulan Baru
             </button>
         </div>
 
@@ -67,10 +67,10 @@
 
         <div class="flex flex-wrap gap-3 pt-4 border-t">
             <button onclick="exportToExcel()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-emerald-700 font-semibold flex items-center gap-2">
-                📥 Eksport Semua ke Excel (.xlsx)
+                Eksport Semua ke Excel (.xlsx)
             </button>
             <button onclick="exportToPDF()" class="bg-rose-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-rose-700 font-semibold flex items-center gap-2">
-                📄 Muat Turun Cetakan PDF
+                Muat Turun Cetakan PDF
             </button>
         </div>
     </div>
@@ -82,10 +82,22 @@
         // Set tarikh hari ini secara automatik
         document.getElementById('tarikhDoc').value = new Date().toISOString().split('T')[0];
 
-        // Pembilang unik untuk ID element
         let groupCounter = 0;
 
-        // Fungsi menambah Kumpulan Baru (Group)
+        // Fungsi menyemak ruangan wajib (Validation)
+        function semakPengepalaWajib() {
+            const wos = document.getElementById('wosNo').value.trim();
+            const projek = document.getElementById('namaProjek').value.trim();
+            const produk = document.getElementById('namaProduk').value.trim();
+
+            if (!wos || !projek || !produk) {
+                alert("RALAT: Sila isi bahagian Pengepala Utama yang wajib terlebih dahulu:\n- Nombor WOS\n- Nama Projek\n- Nama Produk");
+                return false;
+            }
+            return true;
+        }
+
+        // Fungsi menambah Kumpulan Baru (Group) dengan input kosong bersih
         function addGroup(initialName = "") {
             groupCounter++;
             const currentId = groupCounter;
@@ -98,13 +110,13 @@
             groupDiv.innerHTML = `
                 <div class="flex flex-wrap justify-between items-center gap-2 mb-3 bg-slate-200 p-2 rounded-lg">
                     <div class="flex items-center gap-2 w-full md:w-1/2">
-                        <span class="text-slate-700 font-bold">📂 NAMA KUMPULAN:</span>
-                        <input type="text" value="${initialName}" placeholder="cth: MEJA A / MEJA B / LANTAI" 
-                               class="group-title-input p-1.5 border rounded bg-white font-bold text-slate-900 flex-grow uppercase" 
+                        <span class="text-slate-700 font-bold">KUMPULAN:</span>
+                        <input type="text" value="${initialName}" placeholder="" 
+                               class="group-title-input p-1.5 border border-gray-300 rounded bg-white font-bold text-slate-900 flex-grow uppercase" 
                                oninput="renderOutputs()">
                     </div>
                     <button onclick="deleteGroup(${currentId})" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded font-bold">
-                        ✕ Buang Kumpulan Ini
+                        Buang Kumpulan Ini
                     </button>
                 </div>
                 
@@ -136,7 +148,6 @@
             return currentId;
         }
 
-        // Fungsi membuang Kumpulan
         function deleteGroup(id) {
             if(confirm("Adakah anda pasti mahu membuang kumpulan ini bersama semua komponen di dalamnya?")) {
                 document.getElementById(`groupBlock_${id}`).remove();
@@ -144,18 +155,18 @@
             }
         }
 
-        // Fungsi menambah komponen khusus di dalam kumpulan tertentu
+        // Slot input kini kosong sepenuhnya tanpa nombor placeholder
         function addComponentToGroup(groupId, name="", p="", l="", t="", kti="", bahan="") {
             const tbody = document.getElementById(`componentRows_${groupId}`);
             const tr = document.createElement('tr');
             tr.className = 'comp-row';
             tr.innerHTML = `
-                <td class="p-1 border"><input type="text" value="${name}" placeholder="Nama komponen" class="w-full p-1 border rounded c-name" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" value="${p}" placeholder="0" class="w-full p-1 border rounded c-p" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" value="${l}" placeholder="0" class="w-full p-1 border rounded c-l" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" value="${t}" placeholder="0" class="w-full p-1 border rounded c-t" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" value="${kti}" placeholder="0" class="w-full p-1 border rounded c-kti" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="text" value="${bahan}" placeholder="Jenis bahan" class="w-full p-1 border rounded c-bahan" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="text" value="${name}" class="w-full p-1 border border-gray-300 rounded c-name" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${p}" class="w-full p-1 border border-gray-300 rounded c-p" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${l}" class="w-full p-1 border border-gray-300 rounded c-l" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${t}" class="w-full p-1 border border-gray-300 rounded c-t" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${kti}" class="w-full p-1 border border-gray-300 rounded c-kti" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="text" value="${bahan}" class="w-full p-1 border border-gray-300 rounded c-bahan" oninput="renderOutputs()"></td>
                 <td class="p-1 border text-center"><button onclick="deleteComponent(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
             `;
             tbody.appendChild(tr);
@@ -167,7 +178,6 @@
             renderOutputs();
         }
 
-        // Templat HTML Pengepala Standard
         function buildHeaderHTML(wos, batch, mesin, projek, proses, produk, size, tarikh, pageNum, totalPages) {
             return `
                 <div class="grid grid-cols-12 border border-black text-xs font-bold mb-4 bg-white p-2">
@@ -187,35 +197,29 @@
             `;
         }
 
-        // PEMBINAAN OUTPUT DAN KIRAAN HALAMAN (PAGINATION)
         function renderOutputs() {
             const container = document.getElementById('printContainer');
             container.innerHTML = '';
 
-            const wos = document.getElementById('wosNo').value;
-            const batch = document.getElementById('batchNo').value;
-            const mesin = document.getElementById('namaMesin').value;
-            const projek = document.getElementById('namaProjek').value;
-            const proses = document.getElementById('jenisProses').value;
-            const produk = document.getElementById('namaProduk').value;
-            const size = document.getElementById('sizeProduk').value;
-            const tarikh = document.getElementById('tarikhDoc').value;
+            const wos = document.getElementById('wosNo').value || '---';
+            const batch = document.getElementById('batchNo').value || '---';
+            const mesin = document.getElementById('namaMesin').value || '---';
+            const projek = document.getElementById('namaProjek').value || '---';
+            const proses = document.getElementById('jenisProses').value || '---';
+            const produk = document.getElementById('namaProduk').value || '---';
+            const size = document.getElementById('sizeProduk').value || '---';
+            const tarikh = document.getElementById('tarikhDoc').value || '---';
 
-            // Ekstrak semua data daripada struktur group ke satu array rata dengan mengekalkan metadata group
             let flatComponentList = [];
             let globalCounter = 1;
 
             const groupBlocks = document.querySelectorAll('.group-block');
             
             groupBlocks.forEach(block => {
-                const groupName = block.querySelector('.group-title-input').value.toUpperCase() || "TANPA KUMPULAN";
+                const groupName = block.querySelector('.group-title-input').value.toUpperCase() || "AM";
                 const compRows = block.querySelectorAll('.comp-row');
                 
-                // Jika kumpulan kosong (tiada komponen), kita boleh abaikan dalam cetakan, atau masukkan baris kosong
-                if(compRows.length === 0) {
-                    // Dibiarkan kosong, tidak masuk dalam senarai cetakan komponen
-                    return;
-                }
+                if(compRows.length === 0) return;
 
                 compRows.forEach(row => {
                     flatComponentList.push({
@@ -236,7 +240,7 @@
                 return;
             }
 
-            // --- JANA ROUTE SHEET (Sistem Auto-Halaman: Maksimum 8 Baris Sekeping) ---
+            // --- JANA ROUTE SHEET (Maksimum 8 Baris Sekeping) ---
             const ITEMS_PER_PAGE = 8;
             const totalPages = Math.ceil(flatComponentList.length / ITEMS_PER_PAGE);
 
@@ -252,11 +256,10 @@
                 let currentGroupInPage = '';
 
                 pageItems.forEach(item => {
-                    // Papar penanda nama Group jika bertukar kumpulan
                     if (item.group !== currentGroupInPage) {
                         tableRowsHTML += `
                             <tr class="bg-blue-50 font-bold text-xs">
-                                <td colspan="9" class="border border-black px-2 py-1.5 text-blue-900 tracking-wider">📁 KUMPULAN: ${item.group}</td>
+                                <td colspan="9" class="border border-black px-2 py-1.5 text-blue-900 tracking-wider">KUMPULAN: ${item.group}</td>
                             </tr>
                         `;
                         currentGroupInPage = item.group;
@@ -271,7 +274,7 @@
                             <td class="border border-black p-2 text-center bg-gray-50">${item.t}</td>
                             <td class="border border-black p-2 text-center font-bold">${item.kti}</td>
                             <td class="border border-black p-2">${item.bahan}</td>
-                            <td class="border border-black p-2 text-gray-400 text-[10px] text-center">Mula [ &nbsp; ] → Siap [ &nbsp; ]</td>
+                            <td class="border border-black p-2 text-gray-400 text-[10px] text-center">Mula [     ] -> Siap [     ]</td>
                             <td class="border border-black p-2"></td>
                         </tr>
                     `;
@@ -306,7 +309,7 @@
                 container.appendChild(sheetDiv);
             }
 
-            // --- JANA BORANG INSPEKSI QC KESELURUHAN (IKUT GROUP SECARA JELAS) ---
+            // --- JANA BORANG INSPEKSI QC ---
             const qcContainer = document.createElement('div');
             qcContainer.className = "page-break bg-white p-6 shadow-md border border-slate-300 rounded-lg mt-10";
             
@@ -317,7 +320,7 @@
                 if (item.group !== currentGroupInQC) {
                     qcRowsHTML += `
                         <tr class="bg-teal-50 font-bold text-xs">
-                            <td colspan="9" class="border border-black px-2 py-1.5 text-teal-900 tracking-wider">📁 SEMAKAN KUMPULAN: ${item.group}</td>
+                            <td colspan="9" class="border border-black px-2 py-1.5 text-teal-900 tracking-wider">SEMAKAN KUMPULAN: ${item.group}</td>
                         </tr>
                     `;
                     currentGroupInQC = item.group;
@@ -328,10 +331,10 @@
                         <td class="border border-black p-2 text-center font-bold">${item.globalNo}</td>
                         <td class="border border-black p-2 font-bold">${item.name} <br><span class="text-[10px] font-normal text-gray-500">${item.bahan}</span></td>
                         <td class="border border-black p-2 text-center bg-slate-100 font-semibold">${item.p} x ${item.l} x ${item.t} (x${item.kti})</td>
-                        <td class="border border-black p-2 text-center text-gray-300">[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
-                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Chip</td>
-                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Calar</td>
-                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Ralat</td>
+                        <td class="border border-black p-2 text-center text-gray-300">[                 ]</td>
+                        <td class="border border-black p-2 text-center text-gray-400">OK / Chip</td>
+                        <td class="border border-black p-2 text-center text-gray-400">OK / Calar</td>
+                        <td class="border border-black p-2 text-center text-gray-400">OK / Ralat</td>
                         <td class="border border-black p-2 text-center font-bold text-gray-400">PASS / FAIL</td>
                         <td class="border border-black p-2"></td>
                     </tr>
@@ -369,8 +372,10 @@
             container.appendChild(qcContainer);
         }
 
-        // --- ENGINES FOR EXPORT ---
+        // --- ENGINES FOR EXPORT WITH VALIDATION LOCK ---
         function exportToExcel() {
+            if (!semakPengepalaWajib()) return; // Kunci proses jika pengepala kosong
+
             const proj = document.getElementById('namaProjek').value || 'Projek';
             const wb = XLSX.utils.book_new();
             
@@ -405,6 +410,8 @@
         }
 
         function exportToPDF() {
+            if (!semakPengepalaWajib()) return; // Kunci proses jika pengepala kosong
+
             const element = document.getElementById('printContainer');
             const proj = document.getElementById('namaProjek').value || 'Dokumen';
             const opt = {
@@ -417,14 +424,8 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Mulakan sistem dengan dua Kumpulan Contoh (Default state)
-        const g1 = addGroup("LANTAI");
-        addComponentToGroup(g1, "Panel Tapak Utama", "864", "280", "18", "2", "MFC Board White");
-        addComponentToGroup(g1, "Dinding Sisi Kiri", "720", "280", "18", "1", "MFC Board White");
-        
-        const g2 = addGroup("MEJA A");
-        addComponentToGroup(g2, "Kaki Meja Sokongan", "750", "60", "60", "4", "Kayu Solid");
-        addComponentToGroup(g2, "Top Panel Slaid", "1200", "600", "25", "1", "MDF Veneer");
+        // Mulakan paparan kosong (Fresh Slate)
+        renderOutputs();
     </script>
 </body>
 </html>
