@@ -3,704 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pengurusan Komponen & Kawalan Kualiti (QC) Kilang</title>
+    <title>Sistem Router Pengeluaran & QC - Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root {
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --primary-dark: #172554;
-            --success: #15803d;
-            --danger: #b91c1c;
-            --bg-main: #f1f5f9;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #94a3b8;
-            --table-header-bg: #e2e8f0;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding: 30px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Seksyen Papan Pemuka Utama */
-        .dashboard-header {
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .dashboard-header h1 {
-            font-size: 26px;
-            color: var(--primary-dark);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .dashboard-header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        /* Panel Kawalan (Control Panel) */
-        .control-panel {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 35px;
-        }
-
-        .control-panel h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-1px);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        /* Petunjuk Status Sistem */
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            background-color: #dbeafe;
-            color: #1e40af;
-            margin-top: 10px;
-        }
-
-        /* Rekabentuk Helaian Paparan Dokumen (Siri Cetakan) */
-        .sheet-page, .qc-page {
-            background: white;
-            border: 2px solid var(--border-color);
-            padding: 40px;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            position: relative;
-        }
-
-        /* Dokumen Rangka Kerja Cetakan */
-        .document-title-container {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-        }
-
-        .document-title-container h2 {
-            font-size: 20px;
-            color: #000;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        /* Jadual Maklumat Atas (Header Grid) */
-        .header-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            font-size: 13px;
-        }
-
-        .header-table td {
-            padding: 8px 10px;
-            border: none;
-            vertical-align: middle;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #475569;
-            width: 15%;
-            text-transform: uppercase;
-            font-size: 11px;
-        }
-
-        .value {
-            border-bottom: 1px dashed var(--border-color);
-            color: #000;
-            width: 35%;
-            font-weight: 600;
-        }
-
-        .value-highlight {
-            font-size: 15px;
-            color: var(--primary-dark);
-            font-weight: 700;
-        }
-
-        /* Jadual Utama Komponen & Saiz */
-        .data-table, .qc-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 13px;
-        }
-
-        .data-table th, .data-table td, .qc-table th, .qc-table td {
-            border: 1px solid #000000;
-            padding: 10px 8px;
-            text-align: left;
-            vertical-align: middle;
-        }
-
-        .data-table th {
-            background-color: var(--table-header-bg);
-            color: #000;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 11px;
-            text-align: center;
-        }
-
-        /* Baris Kumpulan Tersuai (Custom Group Row) */
-        .sub-header-row {
-            background-color: #cbd5e1;
-            font-weight: bold;
-            color: #000;
-        }
-
-        .sub-header-row td {
-            padding: 10px 12px;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-        }
-
-        /* Struktur Borang Semakan QC */
-        .qc-section-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin: 20px 0 8px 0;
-            text-transform: uppercase;
-            color: #000;
-            border-left: 4px solid var(--primary);
-            padding-left: 8px;
-        }
-
-        .checklist-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-        }
-
-        .checklist-table td {
-            border: 1px solid #000;
-            padding: 12px;
-            font-size: 13px;
-            vertical-align: top;
-        }
-
-        .box-cell {
-            width: 50px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        /* Pengesahan Bawah Borang */
-        .footer-sign-off {
-            margin-top: 35px;
-            display: table;
-            width: 100%;
-        }
-
-        .sign-off-block {
-            display: table-cell;
-            width: 50%;
-            vertical-align: bottom;
-        }
-
-        .sign-off-block-right {
-            display: table-cell;
-            width: 50%;
-            text-align: right;
-            vertical-align: bottom;
-        }
-
-        .checkbox-group-row {
-            margin-bottom: 15px;
-        }
-
-        .checkbox-box {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 1px solid #000;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        .checkbox-text {
-            font-weight: 700;
-            font-size: 13px;
-            margin-right: 25px;
-            vertical-align: middle;
-        }
-
-        /* NOTA PENJELASAN ATAS SKRIN */
-        .info-alert {
-            background-color: #eff6ff;
-            border-left: 4px solid var(--primary-light);
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            font-size: 13.5px;
-        }
-
-        .info-alert ul {
-            margin-left: 20px;
-            margin-top: 5px;
-        }
-
-        /* KAWALAN MEDIA CETAK (PRINT ENGINE) */
         @media print {
-            body {
-                background: white;
-                padding: 0;
-                color: #000;
-            }
-            .container {
-                max-width: 100%;
-                padding: 0;
-                box-shadow: none;
-                background: transparent;
-            }
-            .dashboard-header, .control-panel, .info-alert {
-                display: none !important;
-            }
-            .sheet-page, .qc-page {
-                border: none;
-                padding: 0;
-                margin: 0;
-                box-shadow: none;
-                page-break-after: always;
-                page-break-inside: avoid;
-            }
-            /* Menghalang baris terpotong separuh di sempadan kertas */
-            .data-table tr, .qc-table tr, .checklist-table tr {
-                page-break-inside: avoid;
-            }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; break-before: page; }
+            body { background-color: white; padding: 0; }
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 font-sans p-4 md:p-8 text-sm text-gray-800">
 
-<div class="container">
-    <div class="dashboard-header">
-        <h1>Sistem Autofill Komponen & Cetakan QC Automatik v2.0</h1>
-        <p>Pengurusan data berasaskan rujukan struktur fail <em>Book 1(Sheet1).csv</em> dengan kebolehan Kumpulan Dinamik Tersuai (Custom Groups) dan Kawalan Helaian Kalis Limpah (Anti-Overflow System).</p>
-    </div>
-
-    <div class="info-alert">
-        <strong>Sistem Pintar Beroperasi:</strong>
-        <ul>
-            <li><strong>Auto-Pagination:</strong> Sistem mengehadkan maksima baris item sehelai kertas. Jika senarai komponen melebihi had, mukasurat baharu dijana automatik dengan mengekalkan maklumat Projek/WOS di bahagian atas secara utuh.</li>
-            <li><strong>Custom Dynamic Groups:</strong> Pengguna boleh meletakkan seberapa banyak nama kumpulan buatan sendiri (contoh: LANTAI, TAPAK, KABINET B). Sistem akan mengesan nama kumpulan ini secara dinamik dan memaparkannya sebagai baris pengasing (sub-header).</li>
-            <li><strong>Dokumen QC Komponen Individu:</strong> Apabila butang QC ditekan, sistem menjana borang pemeriksaan lengkap tersendiri untuk <em>setiap satu komponen</em> bersama data saiz (P, L, T), kuantiti, dan nama kumpulan asalnya.</li>
-        </ul>
-    </div>
-
-    <div class="control-panel">
-        <h3>
-            Control Panel Dokumen Pejabat / Kilang
-        </h3>
-        <div class="btn-group">
-            <button class="btn-primary" onclick="tampilkanHelaianKomponen()">
-                Lihat & Cetak Helaian Komponen
-            </button>
-            <button class="btn-success" onclick="janaBorangQCKomponen()">
-                Generate Borang QC Setiap Komponen
-            </button>
-        </div>
-        <div class="status-badge" id="sistem-status">Paparan Semasa: Jadual Helaian Komponen</div>
-    </div>
-
-    <div id="output-engine"></div>
-</div>
-
-<script>
-/* ==========================================================================
-   1. STRUKTUR DATA UTAMA (DATA REKOD DIKUMPUL OLEH ENGINE AI)
-   ========================================================================== */
-
-// Data Induk/Metadata (Bahagian Atas Cetakan - Sentiasa Kekal Sama di setiap page)
-const metadataProjek = {
-    wosNo: "WOS-2026-0814",
-    batchNo: "BATCH-B12",
-    namaMesin: "CNC HEAVY DUTY - EDGE BANDER 02",
-    namaProduk: "SET KABINET DAPUR MODERN TIPE-A",
-    projek: "PRJ-MMS-2026",
-    namaProjek: "KONDOMINIUM RESIDENSI MERDEKA (EN. SYAHMI)",
-    proses: "POTONGAN KHAS & ROUTING PINTU",
-    sizeProduk: "3600mm x 600mm x 2100mm",
-    bilanganUnit: "1 SET"
-};
-
-/*
-  Data Senarai Komponen Dinamik (Flat List Array).
-  Sistem diprogramkan untuk menerima data mentah ini secara fleksibel. Pengguna bebas memasukkan objek dengan penanda
-  { isGroup: true, groupName: "NAMA KUMPULAN ANDA" } pada bila-bila masa. 
-  Contoh di bawah memaparkan data limpahan (>8 item) untuk melihat fungsi automatic page break.
-*/
-const dataKomponenUtuh = [
-    // KUMPULAN CUSTOM 1
-    { isGroup: true, groupName: "STRUKTUR UTAMA KABINET A" },
-    { no: 1, tarikh: "2026-07-07", nama: "Panel Sisi Kiri (End Panel)", p: 2100, l: 600, t: 18, kti: 1, bahan: "MDF Moisture Resistant", semak: "Faizal", catatan: "Garis alur belakang" },
-    { no: 2, tarikh: "2026-07-07", nama: "Panel Sisi Kanan (End Panel)", p: 2100, l: 600, t: 18, kti: 1, bahan: "MDF Moisture Resistant", semak: "Faizal", catatan: "Garis alur belakang" },
-    { no: 3, tarikh: "2026-07-07", nama: "Top Board Flat", p: 1800, l: 600, t: 18, kti: 1, bahan: "Plywood Core", semak: "Faizal", catatan: "Kemasan PVC Edge" },
-    { no: 4, tarikh: "2026-07-07", nama: "Bottom Base Plate", p: 1800, l: 600, t: 18, kti: 1, bahan: "Plywood Core", semak: "Razi", catatan: "Heavy duty coating" },
-    { no: 5, tarikh: "2026-07-07", nama: "Center Divider Panel", p: 2064, l: 580, t: 18, kti: 2, bahan: "MDF Melamine Face", semak: "Razi", catatan: "Lubang rak boleh laras" },
-    
-    // KUMPULAN CUSTOM 2 (Contoh: LANTAI / TAPAK mengikut baris 15 pada fail CSV asal)
-    { isGroup: true, groupName: "BAHAGIAN LANTAI, PLINTH & TAPAK SOKONGAN" },
-    { no: 6, tarikh: "2026-07-07", nama: "Plinth Sokongan Depan", p: 1800, l: 100, t: 18, kti: 1, bahan: "Solid Wood", semak: "Faizal", catatan: "Kalisan air tinggi" },
-    { no: 7, tarikh: "2026-07-07", nama: "Plinth Sokongan Belakang", p: 1800, l: 100, t: 18, kti: 1, bahan: "Solid Wood", semak: "Faizal", catatan: "Kalisan air tinggi" },
-    { no: 8, tarikh: "2026-07-07", nama: "Base Support Beam X", p: 564, l: 80, t: 18, kti: 4, bahan: "MDF Moisture Resistant", semak: "Razi", catatan: "-" },
-    { no: 9, tarikh: "2026-07-07", nama: "Base Support Beam Y", p: 564, l: 80, t: 18, kti: 4, bahan: "MDF Moisture Resistant", semak: "Razi", catatan: "-" },
-    
-    // KUMPULAN CUSTOM 3
-    { isGroup: true, groupName: "SIRI PINTU & KEMASAN LUARAN (FAÇADE)" },
-    { no: 10, tarikh: "2026-07-07", nama: "Pintu Utama Kiri (Profiled Door)", p: 750, l: 595, t: 18, kti: 2, bahan: "Solid Nyatoh Wood", semak: "Amirul", catatan: "Pemasangan engsel" },
-    { no: 11, tarikh: "2026-07-07", nama: "Pintu Utama Kanan (Profiled Door)", p: 750, l: 595, t: 18, kti: 2, bahan: "Solid Nyatoh Wood", semak: "Amirul", catatan: "Pemasangan engsel" },
-    { no: 12, tarikh: "2026-07-07", nama: "Muka Laci Kecil Atas (Drawer Front)", p: 150, l: 595, t: 18, kti: 3, bahan: "Solid Nyatoh Wood", semak: "Amirul", catatan: "Alur pemegang sembunyi" },
-    { no: 13, tarikh: "2026-07-07", nama: "Muka Laci Besar Bawah (Drawer Front)", p: 300, l: 595, t: 18, kti: 2, bahan: "Solid Nyatoh Wood", semak: "Amirul", catatan: "Alur pemegang sembunyi" }
-];
-
-/* Had maksimum elemen baris dalam sehelai kertas A4 untuk mengelakkan overflow */
-const LIMIT_BARIS_SEHELAI = 8; 
-
-/* ==========================================================================
-   2. FUNGSI UTAMA ENGINE PEMECAH HELAIAN KOMPONEN (PAGINATION ENGINE)
-   ========================================================================== */
-function tampilkanHelaianKomponen() {
-    document.getElementById('sistem-status').innerText = "Paparan Semasa: Jadual Helaian Komponen";
-    let engineOutput = document.getElementById('output-engine');
-    engineOutput.innerHTML = ""; 
-
-    let koleksiHelaian = [];
-    let helaianSemasa = [];
-    let hitungBaris = 0;
-
-    // Algoritma pemecahan data limpahan ke dalam array helaian kertas berbeza
-    dataKomponenUtuh.forEach(row => {
-        helaianSemasa.push(row);
-        hitungBaris++;
-
-        if (hitungBaris >= LIMIT_BARIS_SEHELAI) {
-            koleksiHelaian.push(helaianSemasa);
-            helaianSemasa = [];
-            hitungBaris = 0;
-        }
-    });
-
-    if (helaianSemasa.length > 0) {
-        koleksiHelaian.push(helaianSemasa);
-    }
-
-    // Membina kod struktur HTML yang utuh dan tegap bagi setiap mukasurat cetakan
-    koleksiHelaian.forEach((rekodHelaian, indexMukasurat) => {
-        let coreHtml = `
-        <div class="sheet-page">
-            <div class="document-title-container">
-                <h2>SENARAI PENGELUARAN KOMPONEN PROJEK</h2>
+    <!-- INPUT PANE (CLERK STATION) -->
+    <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-slate-200 no-print mb-8">
+        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">📋 Meja Kerani Pengeluaran</h1>
+        
+        <!-- Pengepala Atas Rujukan Book 1(Sheet1).csv -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-50 p-4 rounded-lg border">
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Nombor WOS</label>
+                <input type="text" id="wosNo" value="WOS-2026-001" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
             </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">No Batch</label>
+                <input type="text" id="batchNo" value="BATCH-0A" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Nama Mesin</label>
+                <input type="text" id="namaMesin" value="CNC Router 1" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Nama Projek</label>
+                <input type="text" id="namaProjek" value="KABINET DAPUR ALFA" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Jenis Proses</label>
+                <input type="text" id="jenisProses" value="POTONG & EDGE BAND" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Nama Produk</label>
+                <input type="text" id="namaProduk" value="WALL CABINET UNIT A" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Size Produk / Bil. Unit</label>
+                <input type="text" id="sizeProduk" value="900x600x300mm / 2 Unit" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600">Tarikh</label>
+                <input type="date" id="tarikhDoc" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+            </div>
+        </div>
 
-            <table class="header-table">
-                <tr>
-                    <td class="label">WOS NO:</td>
-                    <td class="value value-highlight">${metadataProjek.wosNo}</td>
-                    <td class="label">PROJEK:</td>
-                    <td class="value">${metadataProjek.projek}</td>
-                    <td class="label">Muka Surat:</td>
-                    <td class="value" style="font-size:14px; font-weight:bold; color:var(--danger);">${indexMukasurat + 1} / ${koleksiHelaian.length}</td>
-                </tr>
-                <tr>
-                    <td class="label">BATCH NO:</td>
-                    <td class="value">${metadataProjek.batchNo}</td>
-                    <td class="label">NAMA PROJEK:</td>
-                    <td class="value">${metadataProjek.namaProjek}</td>
-                    <td></td><td></td>
-                </tr>
-                <tr>
-                    <td class="label">NAMA MESIN:</td>
-                    <td class="value">${metadataProjek.namaMesin}</td>
-                    <td class="label">PROSES:</td>
-                    <td class="value">${metadataProjek.proses}</td>
-                    <td></td><td></td>
-                </tr>
-                <tr>
-                    <td class="label">NAMA PRODUK:</td>
-                    <td class="value">${metadataProjek.namaProduk}</td>
-                    <td class="label">SAIZ OVERALL:</td>
-                    <td class="value">${metadataProjek.sizeProduk}</td>
-                    <td class="label">BIL. UNIT:</td>
-                    <td class="value">${metadataProjek.bilanganUnit}</td>
-                </tr>
-            </table>
-
-            <table class="data-table">
+        <!-- Borang Input Komponen -->
+        <h2 class="text-lg font-bold text-slate-700 mb-2">🔧 Senarai Komponen (Isi Sekali Sahaja)</h2>
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full text-left border">
                 <thead>
-                    <tr>
-                        <th rowspan="2" style="width: 4%;">NO</th>
-                        <th rowspan="2" style="width: 10%;">TARIKH</th>
-                        <th rowspan="2" style="width: 26%;">KOMPONEN</th>
-                        <th colspan="3">SAIZ SASARAN (mm)</th>
-                        <th rowspan="2" style="width: 5%;">KTI</th>
-                        <th rowspan="2" style="width: 17%;">BAHAN / MATERIAL</th>
-                        <th rowspan="2" style="width: 13%;">DISEMAK OLEH</th>
-                        <th rowspan="2" style="width: 15%;">CATATAN OPERASI</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 5%;">P</th>
-                        <th style="width: 5%;">L</th>
-                        <th style="width: 5%;">T</th>
+                    <tr class="bg-slate-800 text-white text-xs uppercase">
+                        <th class="p-2 border">Kategori/Group (cth: LANTAI)</th>
+                        <th class="p-2 border">Nama Komponen</th>
+                        <th class="p-2 border w-20">P (mm)</th>
+                        <th class="p-2 border w-20">L (mm)</th>
+                        <th class="p-2 border w-20">T (mm)</th>
+                        <th class="p-2 border w-20">KTI (Bil)</th>
+                        <th class="p-2 border">Bahan</th>
+                        <th class="p-2 border w-16 text-center">Padam</th>
                     </tr>
                 </thead>
-                <tbody>
-        `;
-
-        rekodHelaian.forEach(item => {
-            if (item.isGroup) {
-                // Pengesanan Automatik Baris Kumpulan Tersuai (Custom Group Indicator)
-                coreHtml += `
-                    <tr class="sub-header-row">
-                        <td colspan="10">&raquo; BAHAGIAN / KUMPULAN: ${item.groupName}</td>
+                <tbody id="inputRows">
+                    <tr class="item-row bg-white">
+                        <td class="p-1 border"><input type="text" value="LANTAI" class="w-full p-1 border rounded comp-group" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="text" value="Panel Tapak Utama" class="w-full p-1 border rounded comp-name" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="number" value="864" class="w-full p-1 border rounded comp-p" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="number" value="280" class="w-full p-1 border rounded comp-l" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="number" value="18" class="w-full p-1 border rounded comp-t" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="number" value="2" class="w-full p-1 border rounded comp-kti" oninput="renderOutputs()"></td>
+                        <td class="p-1 border"><input type="text" value="MFC Board White" class="w-full p-1 border rounded comp-bahan" oninput="renderOutputs()"></td>
+                        <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
                     </tr>
-                `;
-            } else {
-                coreHtml += `
-                    <tr>
-                        <td style="text-align:center;">${item.no}</td>
-                        <td style="text-align:center;">${item.tarikh}</td>
-                        <td><strong>${item.nama}</strong></td>
-                        <td style="text-align:center; font-weight:600;">${item.p}</td>
-                        <td style="text-align:center; font-weight:600;">${item.l}</td>
-                        <td style="text-align:center; font-weight:600;">${item.t}</td>
-                        <td style="text-align:center; font-weight:bold; background-color:#f8fafc;">${item.kti}</td>
-                        <td>${item.bahan}</td>
-                        <td style="text-align:center;">${item.semak}</td>
-                        <td style="font-size:11px; color:#334155;">${item.catatan}</td>
-                    </tr>
-                `;
-            }
-        });
-
-        coreHtml += `
                 </tbody>
             </table>
         </div>
-        `;
-        engineOutput.innerHTML += coreHtml;
-    });
-}
 
-/* ==========================================================================
-   3. FUNGSI GENERATOR DOKUMEN INSPEKSI KAWALAN KUALITI (QC) KOMPONEN INDIVIDU
-   ========================================================================== */
-function janaBorangQCKomponen() {
-    document.getElementById('sistem-status').innerText = "Paparan Semasa: Dokumen QC Setiap Komponen";
-    let engineOutput = document.getElementById('output-engine');
-    engineOutput.innerHTML = ""; 
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button onclick="addRow()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-800 font-medium">+ Tambah Komponen</button>
+            <button onclick="exportToExcel()" class="bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700 font-medium">📥 Eksport Excel (.xlsx)</button>
+            <button onclick="exportToPDF()" class="bg-rose-600 text-white px-4 py-2 rounded shadow hover:bg-rose-700 font-medium">📄 Muat Turun Cetakan PDF</button>
+        </div>
+    </div>
 
-    let penjejakKumpulanSemasa = "Umum / Tiada Kumpulan";
+    <!-- PREVIEW & LIVE PRINTSYSTEM -->
+    <div id="printContainer" class="max-w-7xl mx-auto space-y-8">
+        <!-- Konten Di-generate Secara Dinamik oleh JavaScript -->
+    </div>
 
-    // Loop berasingan untuk menghasilkan satu borang QC eksklusif bagi setiap komponen
-    dataKomponenUtuh.forEach(row => {
-        if (row.isGroup) {
-            // Mengemas kini nama kumpulan semasa untuk komponen di bawahnya
-            penjejakKumpulanSemasa = row.groupName;
-        } else {
-            let qcHtml = `
-            <div class="qc-page">
-                <div class="document-title-container">
-                    <h2>BORANG PEMERIKSAAN & KAWALAN KUALITI (QC) KOMPONEN INDIVIDU</h2>
-                </div>
+    <script>
+        // Set tarikh hari ini secara automatik
+        document.getElementById('tarikhDoc').value = new Date().toISOString().split('T')[0];
 
-                <table class="header-table">
-                    <tr>
-                        <td class="label">Projek Utama:</td>
-                        <td class="value" style="width:40%;">${metadataProjek.namaProjek}</td>
-                        <td class="label">No. WOS / Batch:</td>
-                        <td class="value" style="width:40%;"><strong>${metadataProjek.wosNo} / ${metadataProjek.batchNo}</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="label">Produk Induk:</td>
-                        <td class="value">${metadataProjek.namaProduk}</td>
-                        <td class="label">Mesin Pemproses:</td>
-                        <td class="value">${metadataProjek.namaMesin}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Kumpulan Komponen:</td>
-                        <td class="value" style="color:var(--success); font-weight:700;">${penjejakKumpulanSemasa}</td>
-                        <td class="label">Pegawai Semakan Asal:</td>
-                        <td class="value">${row.semak}</td>
-                    </tr>
-                </table>
-
-                <div class="qc-section-title">1. Profil & Spesifikasi Fizikal Komponen SASARAN</div>
-                <table class="qc-table" style="margin-bottom:20px;">
-                    <thead>
-                        <tr style="background-color:var(--table-header-bg); font-weight:bold; text-align:center;">
-                            <th style="width:40%;">Nama Komponen Khusus</th>
-                            <th style="width:12%;">Panjang (P)</th>
-                            <th style="width:12%;">Lebar (L)</th>
-                            <th style="width:12%;">Tebal/Tinggi (T)</th>
-                            <th style="width:10%;">Kuantiti (KTI)</th>
-                            <th style="width:14%;">Jenis Bahan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="font-size:15px; color:var(--primary-dark);"><strong>${row.nama}</strong></td>
-                            <td style="text-align:center; font-size:14px; font-weight:700;">${row.p} mm</td>
-                            <td style="text-align:center; font-size:14px; font-weight:700;">${row.l} mm</td>
-                            <td style="text-align:center; font-size:14px; font-weight:700;">${row.t} mm</td>
-                            <td style="text-align:center; font-size:15px; font-weight:800; background-color:#f0fdf4;">${row.kti} Unit</td>
-                            <td style="text-align:center;">${row.bahan}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="font-size:11.5px; color:#475569; background-color:#f8fafc;">
-                                <strong>Catatan Pengeluaran Tambahan:</strong> ${row.catatan ? row.catatan : "Tiada maklumat tambahan disediakan."}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="qc-section-title">2. Senarai Semak Penilaian Kualiti Mandatori (Mandatory Check)</div>
-                <table class="checklist-table">
-                    <thead>
-                        <tr style="background-color:#f8fafc; font-weight:700; font-size:11px;">
-                            <th style="width:10%; text-align:center; padding:8px;">TANDA</th>
-                            <th style="width:30%; padding:8px;">KRITERIA KAWALAN</th>
-                            <th style="width:60%; padding:8px;">PENJELASAN PIWAIAN TEKNIKAL (STANDARD OPERATING PROCEDURE)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="box-cell">[ &nbsp; ]</td>
-                            <td><strong>Ketepatan Dimensi & Saiz</strong></td>
-                            <td>Ukur komponen menggunakan angkup vernier / pita ukur fizikal. Dimensi Panjang, Lebar, dan Tebal mestilah mematuhi spesifikasi lukisan kerja dengan toleransi maksimum tidak melebihi &plusmn;1.0mm.</td>
-                        </tr>
-                        <tr>
-                            <td class="box-cell">[ &nbsp; ]</td>
-                            <td><strong>Kualiti Garisan Potongan</strong></td>
-                            <td>Periksa kualiti sisi komponen selepas pemotongan. Pastikan tepi kayu adalah tegak lurus (90 darjah), tiada kesan herot, biku, atau serpihan pecah (chipping/tear-out) akibat bilah mesin tumpul.</td>
-                        </tr>
-                        <tr>
-                            <td class="box-cell">[ &nbsp; ]</td>
-                            <td><strong>Integriti Permukaan (Face Quality)</strong></td>
-                            <td>Lakukan pemeriksaan visual di bawah pencahayaan yang cukup. Permukaan atas dan bawah komponen mestilah bersih daripada calar dalam, retakan material, kesan gam meleleh, atau kecacatan teras kayu.</td>
-                        </tr>
-                        <tr>
-                            <td class="box-cell">[ &nbsp; ]</td>
-                            <td><strong>Kedudukan Alur & Lubang</strong></td>
-                            <td>Bagi komponen berprofil khusus: Pastikan kedudukan alur belakang (groove panel), lubang skru dowel, atau poket engsel adalah tepat mengikut titik kordinat yang ditetapkan tanpa larian jarak.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="qc-section-title">3. Keputusan Pemeriksaan & Perakuan Pegawai QC</div>
-                <div style="border:1px solid #000; padding:15px; background-color:#fbfbfb;">
-                    <div class="checkbox-group-row">
-                        <span class="checkbox-box"></span><span class="checkbox-text">LULUS (PASSED)</span>
-                        <span class="checkbox-box"></span><span class="checkbox-text">GAGAL / REJECT (Sila Nyatakan Pelan Rework di Bawah)</span>
-                    </div>
-                    <div style="font-size:12px; margin-top:10px; color:#475569;">
-                        <em>Sebab Gagal (Jika ada): _________________________________________________________________________________________________</em>
-                    </div>
-                </div>
-
-                <div class="footer-sign-off">
-                    <div class="sign-off-block">
-                        <p style="font-size:13px;">Tandatangan Pemeriksa QC:</p>
-                        <br><br>
-                        <p>_____________________________________</p>
-                        <p style="font-size:12px; color:#334155;">Nama Pegawai: _______________________</p>
-                    </div>
-                    <div class="sign-off-block-right">
-                        <p style="font-size:13px;">Tarikh Semakan Dilakukan:</p>
-                        <br><br>
-                        <p>______ / ______ / 2026</p>
-                        <p style="font-size:12px; color:#334155;">Masa Semakan: _______________</p>
-                    </div>
-                </div>
-            </div>
+        function addRow() {
+            const tbody = document.getElementById('inputRows');
+            const tr = document.createElement('tr');
+            tr.className = 'item-row bg-white';
+            tr.innerHTML = `
+                <td class="p-1 border"><input type="text" placeholder="cth: LANTAI" class="w-full p-1 border rounded comp-group" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="text" placeholder="Nama komponen" class="w-full p-1 border rounded comp-name" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-p" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-l" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-t" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-kti" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="text" placeholder="Jenis bahan" class="w-full p-1 border rounded comp-bahan" oninput="renderOutputs()"></td>
+                <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
             `;
-            engineOutput.innerHTML += qcHtml;
+            tbody.appendChild(tr);
+            renderOutputs();
         }
-    });
 
-    // Panggil arahan cetak terus selepas borang selesai dijana
-    setTimeout(() => { window.print(); }, 500);
-}
+        function deleteRow(btn) {
+            btn.closest('tr').remove();
+            renderOutputs();
+        }
 
-// Menjalankan fungsi paparan jadual helaian komponen secara asal ketika halaman dibuka
-window.onload = tampilkanHelaianKomponen;
-</script>
+        function buildHeaderHTML(wos, batch, mesin, projek, proses, produk, size, tarikh, pageNum, totalPages) {
+            return `
+                <div class="grid grid-cols-12 border border-black text-xs font-bold mb-4 bg-white p-2">
+                    <div class="col-span-3 border-r border-b border-black p-1">WOS NO: <span class="font-normal">${wos}</span></div>
+                    <div class="col-span-4 border-r border-b border-black p-1">PROJEK: <span class="font-normal">${projek}</span></div>
+                    <div class="col-span-5 border-b border-black p-1">NAMA PROJEK: <span class="font-normal">${projek}</span></div>
+                    
+                    <div class="col-span-3 border-r border-b border-black p-1">BATCH NO: <span class="font-normal">${batch}</span></div>
+                    <div class="col-span-4 border-r border-b border-black p-1">PROSES: <span class="font-normal">${proses}</span></div>
+                    <div class="col-span-5 border-b border-black p-1">TARIKH: <span class="font-normal">${tarikh}</span></div>
+                    
+                    <div class="col-span-3 border-r border-black p-1">NAMA MESIN: <span class="font-normal">${mesin}</span></div>
+                    <div class="col-span-4 border-r border-black p-1">NAMA PRODUK: <span class="font-normal">${produk}</span></div>
+                    <div class="col-span-3 border-r border-black p-1">SAIZ / BIL UNIT: <span class="font-normal">${size}</span></div>
+                    <div class="col-span-2 p-1 text-right">Muka Surat: <span class="font-normal">${pageNum} / ${totalPages}</span></div>
+                </div>
+            `;
+        }
 
+        function renderOutputs() {
+            const container = document.getElementById('printContainer');
+            container.innerHTML = '';
+
+            // Ambil data metadata utama
+            const wos = document.getElementById('wosNo').value;
+            const batch = document.getElementById('batchNo').value;
+            const mesin = document.getElementById('namaMesin').value;
+            const projek = document.getElementById('namaProjek').value;
+            const proses = document.getElementById('jenisProses').value;
+            const produk = document.getElementById('namaProduk').value;
+            const size = document.getElementById('sizeProduk').value;
+            const tarikh = document.getElementById('tarikhDoc').value;
+
+            // Kumpul senarai komponen
+            const rows = document.querySelectorAll('.item-row');
+            let components = [];
+            rows.forEach((row, idx) => {
+                components.push({
+                    no: idx + 1,
+                    group: row.querySelector('.comp-group').value.toUpperCase() || 'AM',
+                    name: row.querySelector('.comp-name').value || '---',
+                    p: row.querySelector('.comp-p').value || '-',
+                    l: row.querySelector('.comp-l').value || '-',
+                    t: row.querySelector('.comp-t').value || '-',
+                    kti: row.querySelector('.comp-kti').value || '0',
+                    bahan: row.querySelector('.comp-bahan').value || '-'
+                });
+            });
+
+            if(components.length === 0) return;
+
+            // PAGINATION LOGIC FOR ROUTE SHEET (Maksimum 8 baris satu halaman supaya tak overflow)
+            const ITEMS_PER_PAGE = 8;
+            const totalPages = Math.ceil(components.length / ITEMS_PER_PAGE);
+
+            for (let i = 0; i < totalPages; i++) {
+                const pageNum = i + 1;
+                const sliceStart = i * ITEMS_PER_PAGE;
+                const pageItems = components.slice(sliceStart, sliceStart + ITEMS_PER_PAGE);
+
+                const sheetDiv = document.createElement('div');
+                sheetDiv.className = `bg-white p-6 shadow-md border border-slate-300 rounded-lg ${i > 0 ? 'page-break' : ''}`;
+                
+                let tableRowsHTML = '';
+                let lastGroup = '';
+
+                pageItems.forEach(item => {
+                    // Masukkan pembahagi jika group bertukar (seperti LANTAI, TAPAK dll)
+                    if (item.group && item.group !== lastGroup) {
+                        tableRowsHTML += `
+                            <tr class="bg-amber-50 font-bold">
+                                <td colspan="9" class="border border-black px-2 py-1 text-amber-900 text-xs tracking-wider">🎯 BAHAGIAN / GROUP: ${item.group}</td>
+                            </tr>
+                        `;
+                        lastGroup = item.group;
+                    }
+
+                    tableRowsHTML += `
+                        <tr class="text-xs">
+                            <td class="border border-black p-2 text-center font-bold">${item.no}</td>
+                            <td class="border border-black p-2 font-medium">${item.name}</td>
+                            <td class="border border-black p-2 text-center bg-gray-50">${item.p}</td>
+                            <td class="border border-black p-2 text-center bg-gray-50">${item.l}</td>
+                            <td class="border border-black p-2 text-center bg-gray-50">${item.t}</td>
+                            <td class="border border-black p-2 text-center font-bold">${item.kti}</td>
+                            <td class="border border-black p-2">${item.bahan}</td>
+                            <td class="border border-black p-2 text-gray-400 text-[10px] text-center">Mula [ &nbsp; ] → Siap [ &nbsp; ]</td>
+                            <td class="border border-black p-2"></td>
+                        </tr>
+                    `;
+                });
+
+                sheetDiv.innerHTML = `
+                    <div class="text-center mb-2 font-bold text-lg tracking-wide uppercase text-slate-900 no-print">--- HALAMAN CETAKAN ROUTE SHEET ${pageNum} ---</div>
+                    ${buildHeaderHTML(wos, batch, mesin, projek, proses, produk, size, tarikh, pageNum, totalPages)}
+                    <table class="w-full border-collapse border border-black text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 text-xs font-bold text-center">
+                                <th class="border border-black p-2 w-10" rowspan="2">NO</th>
+                                <th class="border border-black p-2 text-left" rowspan="2">KOMPONEN</th>
+                                <th class="border border-black p-2" colspan="3">SAIZ (mm)</th>
+                                <th class="border border-black p-2 w-16" rowspan="2">KTI</th>
+                                <th class="border border-black p-2 text-left" rowspan="2">BAHAN</th>
+                                <th class="border border-black p-2 w-36" rowspan="2">STATUS ALIRAN</th>
+                                <th class="border border-black p-2 w-24" rowspan="2">PENGESAHAN</th>
+                            </tr>
+                            <tr class="bg-slate-50 text-[10px] font-bold text-center">
+                                <th class="border border-black p-1 w-12">P</th>
+                                <th class="border border-black p-1 w-12">L</th>
+                                <th class="border border-black p-1 w-12">T</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRowsHTML}
+                        </tbody>
+                    </table>
+                `;
+                container.appendChild(sheetDiv);
+            }
+
+            // ================= BORANG INSPEKSI QC INDIVIDU FOR EACH COMPONENT =================
+            // Setiap komponen dapat satu baris borang audit yang lengkap
+            const qcContainer = document.createElement('div');
+            qcContainer.className = "page-break bg-white p-6 shadow-md border border-slate-300 rounded-lg mt-10";
+            
+            let qcRowsHTML = '';
+            components.forEach(item => {
+                qcRowsHTML += `
+                    <tr class="text-xs">
+                        <td class="border border-black p-2 text-center font-bold">${item.no}</td>
+                        <td class="border border-black p-2 font-bold">${item.name} <br><span class="text-[10px] font-normal text-gray-500">${item.group} | ${item.bahan}</span></td>
+                        <!-- Specs Asal -->
+                        <td class="border border-black p-2 text-center bg-slate-100 font-semibold">${item.p} x ${item.l} x ${item.t}</td>
+                        <!-- Pemeriksaan QC -->
+                        <td class="border border-black p-2 text-center text-gray-300">[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
+                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Chip</td>
+                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Calar</td>
+                        <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Ralat</td>
+                        <td class="border border-black p-2 text-center font-bold text-gray-400">PASS / FAIL</td>
+                        <td class="border border-black p-2"></td>
+                    </tr>
+                `;
+            });
+
+            qcContainer.innerHTML = `
+                <div class="text-center mb-2 font-bold text-lg tracking-wide uppercase text-teal-900 no-print">--- BORANG INSPEKSI KUALITI QC ---</div>
+                <div class="text-center font-bold text-base text-teal-800 mb-2">BORANG PEMERIKSAAN KUALITI QC (SETIAP KOMPONEN)</div>
+                ${buildHeaderHTML(wos, batch, mesin, projek, "KAWALAN KUALITI (QC)", produk, size, tarikh, 1, 1)}
+                
+                <table class="w-full border-collapse border border-black text-sm">
+                    <thead>
+                        <tr class="bg-teal-900 text-white text-xs font-bold text-center">
+                            <th class="border border-black p-2 w-10">NO</th>
+                            <th class="border border-black p-2 text-left">NAMA KOMPONEN</th>
+                            <th class="border border-black p-2 w-32">SPESIFIKASI ASAL (mm)</th>
+                            <th class="border border-black p-2 w-32">UKURAN SEBENAR</th>
+                            <th class="border border-black p-2 w-28">CHIPPING</th>
+                            <th class="border border-black p-2 w-28">CALAR (SCRATCH)</th>
+                            <th class="border border-black p-2 w-28">KEKEMASAN EDGE</th>
+                            <th class="border border-black p-2 w-24">STATUS</th>
+                            <th class="border border-black p-2">CATATAN INSPEKTOR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${qcRowsHTML}
+                    </tbody>
+                </table>
+                <div class="mt-8 grid grid-cols-2 gap-8 text-center text-xs font-bold">
+                    <div class="border-t border-black pt-4 mt-8">Tandatangan QC Operator: ____________________</div>
+                    <div class="border-t border-black pt-4 mt-8">Tarikh Pemeriksaan: ____________________</div>
+                </div>
+            `;
+            container.appendChild(qcContainer);
+        }
+
+        // --- ENGINES FOR EXPORT ---
+        function exportToExcel() {
+            const proj = document.getElementById('namaProjek').value || 'Projek';
+            const wb = XLSX.utils.book_new();
+            
+            let rawData = [
+                ["WOS NO:", document.getElementById('wosNo').value, "", "PROJEK:", document.getElementById('namaProjek').value],
+                ["BATCH NO:", document.getElementById('batchNo').value, "", "PROSES:", document.getElementById('jenisProses').value],
+                ["NAMA MESIN:", document.getElementById('namaMesin').value, "", "NAMA PRODUK:", document.getElementById('namaProduk').value],
+                [],
+                ["NO", "GROUP", "KOMPONEN", "P (mm)", "L (mm)", "T (mm)", "KTI", "BAHAN"]
+            ];
+
+            document.querySelectorAll('.item-row').forEach((row, idx) => {
+                rawData.push([
+                    idx + 1,
+                    row.querySelector('.comp-group').value,
+                    row.querySelector('.comp-name').value,
+                    row.querySelector('.comp-p').value,
+                    row.querySelector('.comp-l').value,
+                    row.querySelector('.comp-t').value,
+                    row.querySelector('.comp-kti').value,
+                    row.querySelector('.comp-bahan').value
+                ]);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(rawData);
+            XLSX.utils.book_append_sheet(wb, ws, "Data Pengeluaran");
+            XLSX.writeFile(wb, `${proj.replace(/\s+/g, '_')}_Router_QC.xlsx`);
+        }
+
+        function exportToPDF() {
+            const element = document.getElementById('printContainer');
+            const proj = document.getElementById('namaProjek').value || 'Dokumen';
+            const opt = {
+                margin:       0.3,
+                filename:     `${proj.replace(/\s+/g, '_')}_Borang_Produksi.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Jalankan render automatik semasa load awal
+        renderOutputs();
+    </script>
 </body>
 </html>
