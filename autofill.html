@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Router Pengeluaran & QC - Hub</title>
+    <title>Sistem Router Pengeluaran & QC - Berasaskan Kumpulan</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -15,13 +15,11 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 font-sans p-4 md:p-8 text-sm text-gray-800">
+<body class="bg-slate-100 font-sans p-4 md:p-8 text-sm text-gray-800">
 
-    <!-- INPUT PANE (CLERK STATION) -->
     <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-slate-200 no-print mb-8">
-        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">📋 Meja Kerani Pengeluaran</h1>
+        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">📋 Meja Kerani Pengeluaran (Sistem Kumpulan)</h1>
         
-        <!-- Pengepala Atas Rujukan Book 1(Sheet1).csv -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-50 p-4 rounded-lg border">
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Nombor WOS</label>
@@ -37,7 +35,7 @@
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Nama Projek</label>
-                <input type="text" id="namaProjek" value="KABINET DAPUR ALFA" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="namaProjek" value="PROJEK KABINET MODULAR" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Jenis Proses</label>
@@ -45,11 +43,11 @@
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Nama Produk</label>
-                <input type="text" id="namaProduk" value="WALL CABINET UNIT A" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="namaProduk" value="SET MEJA & KABINET" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Size Produk / Bil. Unit</label>
-                <input type="text" id="sizeProduk" value="900x600x300mm / 2 Unit" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
+                <input type="text" id="sizeProduk" value="Custom / 1 Lot" class="w-full mt-1 p-2 border rounded bg-white" oninput="renderOutputs()">
             </div>
             <div>
                 <label class="block text-xs font-bold uppercase text-gray-600">Tarikh</label>
@@ -57,76 +55,119 @@
             </div>
         </div>
 
-        <!-- Borang Input Komponen -->
-        <h2 class="text-lg font-bold text-slate-700 mb-2">🔧 Senarai Komponen (Isi Sekali Sahaja)</h2>
-        <div class="overflow-x-auto mb-4">
-            <table class="w-full text-left border">
-                <thead>
-                    <tr class="bg-slate-800 text-white text-xs uppercase">
-                        <th class="p-2 border">Kategori/Group (cth: LANTAI)</th>
-                        <th class="p-2 border">Nama Komponen</th>
-                        <th class="p-2 border w-20">P (mm)</th>
-                        <th class="p-2 border w-20">L (mm)</th>
-                        <th class="p-2 border w-20">T (mm)</th>
-                        <th class="p-2 border w-20">KTI (Bil)</th>
-                        <th class="p-2 border">Bahan</th>
-                        <th class="p-2 border w-16 text-center">Padam</th>
-                    </tr>
-                </thead>
-                <tbody id="inputRows">
-                    <tr class="item-row bg-white">
-                        <td class="p-1 border"><input type="text" value="LANTAI" class="w-full p-1 border rounded comp-group" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="text" value="Panel Tapak Utama" class="w-full p-1 border rounded comp-name" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="number" value="864" class="w-full p-1 border rounded comp-p" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="number" value="280" class="w-full p-1 border rounded comp-l" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="number" value="18" class="w-full p-1 border rounded comp-t" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="number" value="2" class="w-full p-1 border rounded comp-kti" oninput="renderOutputs()"></td>
-                        <td class="p-1 border"><input type="text" value="MFC Board White" class="w-full p-1 border rounded comp-bahan" oninput="renderOutputs()"></td>
-                        <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-slate-700">📁 Pengurusan Kumpulan & Komponen</h2>
+            <button onclick="addGroup()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-bold transition">
+                + Tambah Kumpulan Baru (cth: MEJA A)
+            </button>
         </div>
 
-        <div class="flex flex-wrap gap-3 mb-6">
-            <button onclick="addRow()" class="bg-slate-700 text-white px-4 py-2 rounded shadow hover:bg-slate-800 font-medium">+ Tambah Komponen</button>
-            <button onclick="exportToExcel()" class="bg-emerald-600 text-white px-4 py-2 rounded shadow hover:bg-emerald-700 font-medium">📥 Eksport Excel (.xlsx)</button>
-            <button onclick="exportToPDF()" class="bg-rose-600 text-white px-4 py-2 rounded shadow hover:bg-rose-700 font-medium">📄 Muat Turun Cetakan PDF</button>
+        <div id="groupsContainer" class="space-y-6 mb-6">
+            </div>
+
+        <div class="flex flex-wrap gap-3 pt-4 border-t">
+            <button onclick="exportToExcel()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-emerald-700 font-semibold flex items-center gap-2">
+                📥 Eksport Semua ke Excel (.xlsx)
+            </button>
+            <button onclick="exportToPDF()" class="bg-rose-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-rose-700 font-semibold flex items-center gap-2">
+                📄 Muat Turun Cetakan PDF
+            </button>
         </div>
     </div>
 
-    <!-- PREVIEW & LIVE PRINTSYSTEM -->
     <div id="printContainer" class="max-w-7xl mx-auto space-y-8">
-        <!-- Konten Di-generate Secara Dinamik oleh JavaScript -->
-    </div>
+        </div>
 
     <script>
         // Set tarikh hari ini secara automatik
         document.getElementById('tarikhDoc').value = new Date().toISOString().split('T')[0];
 
-        function addRow() {
-            const tbody = document.getElementById('inputRows');
+        // Pembilang unik untuk ID element
+        let groupCounter = 0;
+
+        // Fungsi menambah Kumpulan Baru (Group)
+        function addGroup(initialName = "") {
+            groupCounter++;
+            const currentId = groupCounter;
+            const container = document.getElementById('groupsContainer');
+
+            const groupDiv = document.createElement('div');
+            groupDiv.id = `groupBlock_${currentId}`;
+            groupDiv.className = "group-block bg-slate-50 p-4 rounded-xl border-2 border-slate-300 relative shadow-sm";
+
+            groupDiv.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-2 mb-3 bg-slate-200 p-2 rounded-lg">
+                    <div class="flex items-center gap-2 w-full md:w-1/2">
+                        <span class="text-slate-700 font-bold">📂 NAMA KUMPULAN:</span>
+                        <input type="text" value="${initialName}" placeholder="cth: MEJA A / MEJA B / LANTAI" 
+                               class="group-title-input p-1.5 border rounded bg-white font-bold text-slate-900 flex-grow uppercase" 
+                               oninput="renderOutputs()">
+                    </div>
+                    <button onclick="deleteGroup(${currentId})" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded font-bold">
+                        ✕ Buang Kumpulan Ini
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border bg-white rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-slate-700 text-white text-xs uppercase">
+                                <th class="p-2 border">Nama Komponen</th>
+                                <th class="p-2 border w-24">P (mm)</th>
+                                <th class="p-2 border w-24">L (mm)</th>
+                                <th class="p-2 border w-24">T (mm)</th>
+                                <th class="p-2 border w-24">KTI (Bil)</th>
+                                <th class="p-2 border">Bahan</th>
+                                <th class="p-2 border w-16 text-center">Padam</th>
+                            </tr>
+                        </thead>
+                        <tbody id="componentRows_${currentId}">
+                            </tbody>
+                    </table>
+                </div>
+                <div class="mt-2">
+                    <button onclick="addComponentToGroup(${currentId})" class="text-xs bg-slate-600 hover:bg-slate-700 text-white px-3 py-1.5 rounded font-semibold">
+                        + Tambah Komponen Ke Dalam Kumpulan Ini
+                    </button>
+                </div>
+            `;
+            container.appendChild(groupDiv);
+            renderOutputs();
+            return currentId;
+        }
+
+        // Fungsi membuang Kumpulan
+        function deleteGroup(id) {
+            if(confirm("Adakah anda pasti mahu membuang kumpulan ini bersama semua komponen di dalamnya?")) {
+                document.getElementById(`groupBlock_${id}`).remove();
+                renderOutputs();
+            }
+        }
+
+        // Fungsi menambah komponen khusus di dalam kumpulan tertentu
+        function addComponentToGroup(groupId, name="", p="", l="", t="", kti="", bahan="") {
+            const tbody = document.getElementById(`componentRows_${groupId}`);
             const tr = document.createElement('tr');
-            tr.className = 'item-row bg-white';
+            tr.className = 'comp-row';
             tr.innerHTML = `
-                <td class="p-1 border"><input type="text" placeholder="cth: LANTAI" class="w-full p-1 border rounded comp-group" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="text" placeholder="Nama komponen" class="w-full p-1 border rounded comp-name" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-p" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-l" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-t" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="number" placeholder="0" class="w-full p-1 border rounded comp-kti" oninput="renderOutputs()"></td>
-                <td class="p-1 border"><input type="text" placeholder="Jenis bahan" class="w-full p-1 border rounded comp-bahan" oninput="renderOutputs()"></td>
-                <td class="p-1 border text-center"><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
+                <td class="p-1 border"><input type="text" value="${name}" placeholder="Nama komponen" class="w-full p-1 border rounded c-name" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${p}" placeholder="0" class="w-full p-1 border rounded c-p" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${l}" placeholder="0" class="w-full p-1 border rounded c-l" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${t}" placeholder="0" class="w-full p-1 border rounded c-t" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="number" value="${kti}" placeholder="0" class="w-full p-1 border rounded c-kti" oninput="renderOutputs()"></td>
+                <td class="p-1 border"><input type="text" value="${bahan}" placeholder="Jenis bahan" class="w-full p-1 border rounded c-bahan" oninput="renderOutputs()"></td>
+                <td class="p-1 border text-center"><button onclick="deleteComponent(this)" class="text-red-500 hover:text-red-700 font-bold">✕</button></td>
             `;
             tbody.appendChild(tr);
             renderOutputs();
         }
 
-        function deleteRow(btn) {
+        function deleteComponent(btn) {
             btn.closest('tr').remove();
             renderOutputs();
         }
 
+        // Templat HTML Pengepala Standard
         function buildHeaderHTML(wos, batch, mesin, projek, proses, produk, size, tarikh, pageNum, totalPages) {
             return `
                 <div class="grid grid-cols-12 border border-black text-xs font-bold mb-4 bg-white p-2">
@@ -146,11 +187,11 @@
             `;
         }
 
+        // PEMBINAAN OUTPUT DAN KIRAAN HALAMAN (PAGINATION)
         function renderOutputs() {
             const container = document.getElementById('printContainer');
             container.innerHTML = '';
 
-            // Ambil data metadata utama
             const wos = document.getElementById('wosNo').value;
             const batch = document.getElementById('batchNo').value;
             const mesin = document.getElementById('namaMesin').value;
@@ -160,53 +201,70 @@
             const size = document.getElementById('sizeProduk').value;
             const tarikh = document.getElementById('tarikhDoc').value;
 
-            // Kumpul senarai komponen
-            const rows = document.querySelectorAll('.item-row');
-            let components = [];
-            rows.forEach((row, idx) => {
-                components.push({
-                    no: idx + 1,
-                    group: row.querySelector('.comp-group').value.toUpperCase() || 'AM',
-                    name: row.querySelector('.comp-name').value || '---',
-                    p: row.querySelector('.comp-p').value || '-',
-                    l: row.querySelector('.comp-l').value || '-',
-                    t: row.querySelector('.comp-t').value || '-',
-                    kti: row.querySelector('.comp-kti').value || '0',
-                    bahan: row.querySelector('.comp-bahan').value || '-'
+            // Ekstrak semua data daripada struktur group ke satu array rata dengan mengekalkan metadata group
+            let flatComponentList = [];
+            let globalCounter = 1;
+
+            const groupBlocks = document.querySelectorAll('.group-block');
+            
+            groupBlocks.forEach(block => {
+                const groupName = block.querySelector('.group-title-input').value.toUpperCase() || "TANPA KUMPULAN";
+                const compRows = block.querySelectorAll('.comp-row');
+                
+                // Jika kumpulan kosong (tiada komponen), kita boleh abaikan dalam cetakan, atau masukkan baris kosong
+                if(compRows.length === 0) {
+                    // Dibiarkan kosong, tidak masuk dalam senarai cetakan komponen
+                    return;
+                }
+
+                compRows.forEach(row => {
+                    flatComponentList.push({
+                        globalNo: globalCounter++,
+                        group: groupName,
+                        name: row.querySelector('.c-name').value || '---',
+                        p: row.querySelector('.c-p').value || '-',
+                        l: row.querySelector('.c-l').value || '-',
+                        t: row.querySelector('.c-t').value || '-',
+                        kti: row.querySelector('.c-kti').value || '0',
+                        bahan: row.querySelector('.c-bahan').value || '-'
+                    });
                 });
             });
 
-            if(components.length === 0) return;
+            if(flatComponentList.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-400 bg-white border rounded-xl">Tiada data komponen untuk dipaparkan. Sila tambah kumpulan dan komponen di atas.</div>`;
+                return;
+            }
 
-            // PAGINATION LOGIC FOR ROUTE SHEET (Maksimum 8 baris satu halaman supaya tak overflow)
+            // --- JANA ROUTE SHEET (Sistem Auto-Halaman: Maksimum 8 Baris Sekeping) ---
             const ITEMS_PER_PAGE = 8;
-            const totalPages = Math.ceil(components.length / ITEMS_PER_PAGE);
+            const totalPages = Math.ceil(flatComponentList.length / ITEMS_PER_PAGE);
 
             for (let i = 0; i < totalPages; i++) {
                 const pageNum = i + 1;
                 const sliceStart = i * ITEMS_PER_PAGE;
-                const pageItems = components.slice(sliceStart, sliceStart + ITEMS_PER_PAGE);
+                const pageItems = flatComponentList.slice(sliceStart, sliceStart + ITEMS_PER_PAGE);
 
                 const sheetDiv = document.createElement('div');
                 sheetDiv.className = `bg-white p-6 shadow-md border border-slate-300 rounded-lg ${i > 0 ? 'page-break' : ''}`;
                 
                 let tableRowsHTML = '';
-                let lastGroup = '';
+                let currentGroupInPage = '';
 
                 pageItems.forEach(item => {
-                    // Masukkan pembahagi jika group bertukar (seperti LANTAI, TAPAK dll)
-                    if (item.group && item.group !== lastGroup) {
+                    // Papar penanda nama Group jika bertukar kumpulan
+                    if (item.group !== currentGroupInPage) {
                         tableRowsHTML += `
-                            <tr class="bg-amber-50 font-bold">
-                                <td colspan="9" class="border border-black px-2 py-1 text-amber-900 text-xs tracking-wider">🎯 BAHAGIAN / GROUP: ${item.group}</td>
+                            <tr class="bg-blue-50 font-bold text-xs">
+                                <td colspan="9" class="border border-black px-2 py-1.5 text-blue-900 tracking-wider">📁 KUMPULAN: ${item.group}</td>
                             </tr>
                         `;
-                        lastGroup = item.group;
+                        currentGroupInPage = item.group;
                     }
 
                     tableRowsHTML += `
                         <tr class="text-xs">
-                            <td class="border border-black p-2 text-center font-bold">${item.no}</td>
+                            <td class="border border-black p-2 text-center font-bold">${item.globalNo}</td>
                             <td class="border border-black p-2 font-medium">${item.name}</td>
                             <td class="border border-black p-2 text-center bg-gray-50">${item.p}</td>
                             <td class="border border-black p-2 text-center bg-gray-50">${item.l}</td>
@@ -220,7 +278,8 @@
                 });
 
                 sheetDiv.innerHTML = `
-                    <div class="text-center mb-2 font-bold text-lg tracking-wide uppercase text-slate-900 no-print">--- HALAMAN CETAKAN ROUTE SHEET ${pageNum} ---</div>
+                    <div class="text-center mb-1 font-bold text-sm text-blue-600 no-print">--- PREVIEW DOKUMEN ROUTE SHEET (HALAMAN ${pageNum}/${totalPages}) ---</div>
+                    <div class="text-center font-bold text-base text-slate-900 mb-1">BORANG ROUTE SHEET PENGELUARAN</div>
                     ${buildHeaderHTML(wos, batch, mesin, projek, proses, produk, size, tarikh, pageNum, totalPages)}
                     <table class="w-full border-collapse border border-black text-sm">
                         <thead>
@@ -247,21 +306,29 @@
                 container.appendChild(sheetDiv);
             }
 
-            // ================= BORANG INSPEKSI QC INDIVIDU FOR EACH COMPONENT =================
-            // Setiap komponen dapat satu baris borang audit yang lengkap
+            // --- JANA BORANG INSPEKSI QC KESELURUHAN (IKUT GROUP SECARA JELAS) ---
             const qcContainer = document.createElement('div');
             qcContainer.className = "page-break bg-white p-6 shadow-md border border-slate-300 rounded-lg mt-10";
             
             let qcRowsHTML = '';
-            components.forEach(item => {
+            let currentGroupInQC = '';
+
+            flatComponentList.forEach(item => {
+                if (item.group !== currentGroupInQC) {
+                    qcRowsHTML += `
+                        <tr class="bg-teal-50 font-bold text-xs">
+                            <td colspan="9" class="border border-black px-2 py-1.5 text-teal-900 tracking-wider">📁 SEMAKAN KUMPULAN: ${item.group}</td>
+                        </tr>
+                    `;
+                    currentGroupInQC = item.group;
+                }
+
                 qcRowsHTML += `
                     <tr class="text-xs">
-                        <td class="border border-black p-2 text-center font-bold">${item.no}</td>
-                        <td class="border border-black p-2 font-bold">${item.name} <br><span class="text-[10px] font-normal text-gray-500">${item.group} | ${item.bahan}</span></td>
-                        <!-- Specs Asal -->
-                        <td class="border border-black p-2 text-center bg-slate-100 font-semibold">${item.p} x ${item.l} x ${item.t}</td>
-                        <!-- Pemeriksaan QC -->
-                        <td class="border border-black p-2 text-center text-gray-300">[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
+                        <td class="border border-black p-2 text-center font-bold">${item.globalNo}</td>
+                        <td class="border border-black p-2 font-bold">${item.name} <br><span class="text-[10px] font-normal text-gray-500">${item.bahan}</span></td>
+                        <td class="border border-black p-2 text-center bg-slate-100 font-semibold">${item.p} x ${item.l} x ${item.t} (x${item.kti})</td>
+                        <td class="border border-black p-2 text-center text-gray-300">[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
                         <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Chip</td>
                         <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Calar</td>
                         <td class="border border-black p-2 text-center text-gray-400">👌 OK / ❌ Ralat</td>
@@ -272,8 +339,8 @@
             });
 
             qcContainer.innerHTML = `
-                <div class="text-center mb-2 font-bold text-lg tracking-wide uppercase text-teal-900 no-print">--- BORANG INSPEKSI KUALITI QC ---</div>
-                <div class="text-center font-bold text-base text-teal-800 mb-2">BORANG PEMERIKSAAN KUALITI QC (SETIAP KOMPONEN)</div>
+                <div class="text-center mb-1 font-bold text-sm text-teal-600 no-print">--- PREVIEW DOKUMEN KAWALAN KUALITI (QC) ---</div>
+                <div class="text-center font-bold text-base text-teal-800 mb-2">BORANG PEMERIKSAAN KUALITI QC (BERASASKAN KUMPULAN)</div>
                 ${buildHeaderHTML(wos, batch, mesin, projek, "KAWALAN KUALITI (QC)", produk, size, tarikh, 1, 1)}
                 
                 <table class="w-full border-collapse border border-black text-sm">
@@ -281,8 +348,8 @@
                         <tr class="bg-teal-900 text-white text-xs font-bold text-center">
                             <th class="border border-black p-2 w-10">NO</th>
                             <th class="border border-black p-2 text-left">NAMA KOMPONEN</th>
-                            <th class="border border-black p-2 w-32">SPESIFIKASI ASAL (mm)</th>
-                            <th class="border border-black p-2 w-32">UKURAN SEBENAR</th>
+                            <th class="border border-black p-2 w-40">SPESIFIKASI SASARAN (mm)</th>
+                            <th class="border border-black p-2 w-36">UKURAN SEBENAR</th>
                             <th class="border border-black p-2 w-28">CHIPPING</th>
                             <th class="border border-black p-2 w-28">CALAR (SCRATCH)</th>
                             <th class="border border-black p-2 w-28">KEKEMASAN EDGE</th>
@@ -295,8 +362,8 @@
                     </tbody>
                 </table>
                 <div class="mt-8 grid grid-cols-2 gap-8 text-center text-xs font-bold">
-                    <div class="border-t border-black pt-4 mt-8">Tandatangan QC Operator: ____________________</div>
-                    <div class="border-t border-black pt-4 mt-8">Tarikh Pemeriksaan: ____________________</div>
+                    <div class="border-t border-black pt-4 mt-6">Tandatangan Pengesah QC: ____________________</div>
+                    <div class="border-t border-black pt-4 mt-6">Tarikh Pemeriksaan: ____________________</div>
                 </div>
             `;
             container.appendChild(qcContainer);
@@ -307,30 +374,34 @@
             const proj = document.getElementById('namaProjek').value || 'Projek';
             const wb = XLSX.utils.book_new();
             
-            let rawData = [
+            let excelData = [
                 ["WOS NO:", document.getElementById('wosNo').value, "", "PROJEK:", document.getElementById('namaProjek').value],
                 ["BATCH NO:", document.getElementById('batchNo').value, "", "PROSES:", document.getElementById('jenisProses').value],
                 ["NAMA MESIN:", document.getElementById('namaMesin').value, "", "NAMA PRODUK:", document.getElementById('namaProduk').value],
                 [],
-                ["NO", "GROUP", "KOMPONEN", "P (mm)", "L (mm)", "T (mm)", "KTI", "BAHAN"]
+                ["NO SIKEL", "KUMPULAN / GROUP", "NAMA KOMPONEN", "PANJANG (P)", "LEBAR (L)", "TINGGI (T)", "KTI (BIL)", "BAHAN"]
             ];
 
-            document.querySelectorAll('.item-row').forEach((row, idx) => {
-                rawData.push([
-                    idx + 1,
-                    row.querySelector('.comp-group').value,
-                    row.querySelector('.comp-name').value,
-                    row.querySelector('.comp-p').value,
-                    row.querySelector('.comp-l').value,
-                    row.querySelector('.comp-t').value,
-                    row.querySelector('.comp-kti').value,
-                    row.querySelector('.comp-bahan').value
-                ]);
+            let globalIdx = 1;
+            document.querySelectorAll('.group-block').forEach(block => {
+                const gName = block.querySelector('.group-title-input').value.toUpperCase() || "AM";
+                block.querySelectorAll('.comp-row').forEach(row => {
+                    excelData.push([
+                        globalIdx++,
+                        gName,
+                        row.querySelector('.c-name').value,
+                        row.querySelector('.c-p').value,
+                        row.querySelector('.c-l').value,
+                        row.querySelector('.c-t').value,
+                        row.querySelector('.c-kti').value,
+                        row.querySelector('.c-bahan').value
+                    ]);
+                });
             });
 
-            const ws = XLSX.utils.aoa_to_sheet(rawData);
-            XLSX.utils.book_append_sheet(wb, ws, "Data Pengeluaran");
-            XLSX.writeFile(wb, `${proj.replace(/\s+/g, '_')}_Router_QC.xlsx`);
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            XLSX.utils.book_append_sheet(wb, ws, "Data Komponen Berkumpulan");
+            XLSX.writeFile(wb, `${proj.replace(/\s+/g, '_')}_Router_Sistem_Kumpulan.xlsx`);
         }
 
         function exportToPDF() {
@@ -338,7 +409,7 @@
             const proj = document.getElementById('namaProjek').value || 'Dokumen';
             const opt = {
                 margin:       0.3,
-                filename:     `${proj.replace(/\s+/g, '_')}_Borang_Produksi.pdf`,
+                filename:     `${proj.replace(/\s+/g, '_')}_Borang_Kumpulan_Produksi.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
@@ -346,8 +417,14 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Jalankan render automatik semasa load awal
-        renderOutputs();
+        // Mulakan sistem dengan dua Kumpulan Contoh (Default state)
+        const g1 = addGroup("LANTAI");
+        addComponentToGroup(g1, "Panel Tapak Utama", "864", "280", "18", "2", "MFC Board White");
+        addComponentToGroup(g1, "Dinding Sisi Kiri", "720", "280", "18", "1", "MFC Board White");
+        
+        const g2 = addGroup("MEJA A");
+        addComponentToGroup(g2, "Kaki Meja Sokongan", "750", "60", "60", "4", "Kayu Solid");
+        addComponentToGroup(g2, "Top Panel Slaid", "1200", "600", "25", "1", "MDF Veneer");
     </script>
 </body>
 </html>
