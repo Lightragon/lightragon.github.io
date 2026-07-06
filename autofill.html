@@ -18,7 +18,7 @@
 <body class="bg-slate-100 font-sans p-4 md:p-8 text-sm text-gray-800">
 
     <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-slate-200 no-print mb-8">
-        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2">Meja Kerani Pengeluaran (Sistem Kumpulan)</h1>
+        <h1 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-3">Meja Kerani Pengeluaran (Sistem Kumpulan)</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-50 p-4 rounded-lg border">
             <div>
@@ -155,7 +155,7 @@
             }
         }
 
-        // Slot input kini kosong sepenuhnya tanpa nombor placeholder
+        // Slot input kini kosong sepenuhnya tanpa sebarang jawapan awal
         function addComponentToGroup(groupId, name="", p="", l="", t="", kti="", bahan="") {
             const tbody = document.getElementById(`componentRows_${groupId}`);
             const tr = document.createElement('tr');
@@ -274,7 +274,7 @@
                             <td class="border border-black p-2 text-center bg-gray-50">${item.t}</td>
                             <td class="border border-black p-2 text-center font-bold">${item.kti}</td>
                             <td class="border border-black p-2">${item.bahan}</td>
-                            <td class="border border-black p-2 text-gray-400 text-[10px] text-center">Mula [     ] -> Siap [     ]</td>
+                            <td class="border border-black p-2 text-center">Mula [     ] -> Siap [     ]</td>
                             <td class="border border-black p-2"></td>
                         </tr>
                     `;
@@ -332,10 +332,10 @@
                         <td class="border border-black p-2 font-bold">${item.name} <br><span class="text-[10px] font-normal text-gray-500">${item.bahan}</span></td>
                         <td class="border border-black p-2 text-center bg-slate-100 font-semibold">${item.p} x ${item.l} x ${item.t} (x${item.kti})</td>
                         <td class="border border-black p-2 text-center text-gray-300">[                 ]</td>
-                        <td class="border border-black p-2 text-center text-gray-400">OK / Chip</td>
-                        <td class="border border-black p-2 text-center text-gray-400">OK / Calar</td>
-                        <td class="border border-black p-2 text-center text-gray-400">OK / Ralat</td>
-                        <td class="border border-black p-2 text-center font-bold text-gray-400">PASS / FAIL</td>
+                        <td class="border border-black p-2 text-center text-gray-400"></td>
+                        <td class="border border-black p-2 text-center text-gray-400"></td>
+                        <td class="border border-black p-2 text-center text-gray-400"></td>
+                        <td class="border border-black p-2 text-center font-bold text-gray-400"></td>
                         <td class="border border-black p-2"></td>
                     </tr>
                 `;
@@ -374,7 +374,7 @@
 
         // --- ENGINES FOR EXPORT WITH VALIDATION LOCK ---
         function exportToExcel() {
-            if (!semakPengepalaWajib()) return; // Kunci proses jika pengepala kosong
+            if (!semakPengepalaWajib()) return;
 
             const proj = document.getElementById('namaProjek').value || 'Projek';
             const wb = XLSX.utils.book_new();
@@ -410,7 +410,7 @@
         }
 
         function exportToPDF() {
-            if (!semakPengepalaWajib()) return; // Kunci proses jika pengepala kosong
+            if (!semakPengepalaWajib()) return;
 
             const element = document.getElementById('printContainer');
             const proj = document.getElementById('namaProjek').value || 'Dokumen';
@@ -424,7 +424,7 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Mulakan paparan kosong (Fresh Slate)
+        // Mulakan paparan kosong bersih tanpa auto-populate data dummy
         renderOutputs();
     </script>
 </body>
