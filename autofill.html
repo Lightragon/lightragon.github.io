@@ -111,7 +111,7 @@
                 <div class="flex flex-wrap justify-between items-center gap-2 mb-3 bg-slate-200 p-2 rounded-lg">
                     <div class="flex items-center gap-2 w-full md:w-1/2">
                         <span class="text-slate-700 font-bold">KUMPULAN:</span>
-                        <input type="text" value="${initialName}" placeholder="" 
+                        <input type="text" value="${initialName}" placeholder="Contoh: LANTAI / TAPAK / KABINET A" 
                                class="group-title-input p-1.5 border border-gray-300 rounded bg-white font-bold text-slate-900 flex-grow uppercase" 
                                oninput="renderOutputs()">
                     </div>
@@ -201,14 +201,14 @@
             const container = document.getElementById('printContainer');
             container.innerHTML = '';
 
-            const wos = document.getElementById('wosNo').value || '---';
-            const batch = document.getElementById('batchNo').value || '---';
-            const mesin = document.getElementById('namaMesin').value || '---';
-            const projek = document.getElementById('namaProjek').value || '---';
-            const proses = document.getElementById('jenisProses').value || '---';
-            const produk = document.getElementById('namaProduk').value || '---';
-            const size = document.getElementById('sizeProduk').value || '---';
-            const tarikh = document.getElementById('tarikhDoc').value || '---';
+            const wos = document.getElementById('wosNo').value || '';
+            const batch = document.getElementById('batchNo').value || '';
+            const mesin = document.getElementById('namaMesin').value || '';
+            const projek = document.getElementById('namaProjek').value || '';
+            const proses = document.getElementById('jenisProses').value || '';
+            const produk = document.getElementById('namaProduk').value || '';
+            const size = document.getElementById('sizeProduk').value || '';
+            const tarikh = document.getElementById('tarikhDoc').value || '';
 
             let flatComponentList = [];
             let globalCounter = 1;
@@ -225,12 +225,12 @@
                     flatComponentList.push({
                         globalNo: globalCounter++,
                         group: groupName,
-                        name: row.querySelector('.c-name').value || '---',
-                        p: row.querySelector('.c-p').value || '-',
-                        l: row.querySelector('.c-l').value || '-',
-                        t: row.querySelector('.c-t').value || '-',
-                        kti: row.querySelector('.c-kti').value || '0',
-                        bahan: row.querySelector('.c-bahan').value || '-'
+                        name: row.querySelector('.c-name').value || '',
+                        p: row.querySelector('.c-p').value || '',
+                        l: row.querySelector('.c-l').value || '',
+                        t: row.querySelector('.c-t').value || '',
+                        kti: row.querySelector('.c-kti').value || '',
+                        bahan: row.querySelector('.c-bahan').value || ''
                     });
                 });
             });
@@ -372,13 +372,14 @@
             container.appendChild(qcContainer);
         }
 
-        // --- ENGINES FOR EXPORT WITH VALIDATION LOCK ---
+        // --- ENGINES FOR EXPORT DENGAN AUTO FIT LAJUR EXCEL DAN JARAK STRUKTUR KUMPULAN ---
         function exportToExcel() {
             if (!semakPengepalaWajib()) return;
 
             const proj = document.getElementById('namaProjek').value || 'Projek';
             const wb = XLSX.utils.book_new();
             
+            // Susun reka bentuk struktur atas mengikut keperluan borang asal lakaran CSV anda
             let excelData = [
                 ["WOS NO:", document.getElementById('wosNo').value, "", "PROJEK:", document.getElementById('namaProjek').value],
                 ["BATCH NO:", document.getElementById('batchNo').value, "", "PROSES:", document.getElementById('jenisProses').value],
@@ -387,25 +388,51 @@
                 ["NO SIKEL", "KUMPULAN / GROUP", "NAMA KOMPONEN", "PANJANG (P)", "LEBAR (L)", "TINGGI (T)", "KTI (BIL)", "BAHAN"]
             ];
 
+            let lastGroup = "";
             let globalIdx = 1;
+            
             document.querySelectorAll('.group-block').forEach(block => {
                 const gName = block.querySelector('.group-title-input').value.toUpperCase() || "AM";
-                block.querySelectorAll('.comp-row').forEach(row => {
-                    excelData.push([
-                        globalIdx++,
-                        gName,
-                        row.querySelector('.c-name').value,
-                        row.querySelector('.c-p').value,
-                        row.querySelector('.c-l').value,
-                        row.querySelector('.c-t').value,
-                        row.querySelector('.c-kti').value,
-                        row.querySelector('.c-bahan').value
-                    ]);
-                });
+                const rows = block.querySelectorAll('.comp-row');
+                
+                if (rows.length > 0) {
+                    // Jarakkan satu baris dan tambah label kumpulan jika bertukar kumpulan baru (seperti sistem lakaran CSV)
+                    if (lastGroup !== "" && lastGroup !== gName) {
+                        excelData.push([]);
+                    }
+                    
+                    rows.forEach(row => {
+                        excelData.push([
+                            globalIdx++,
+                            gName,
+                            row.querySelector('.c-name').value,
+                            row.querySelector('.c-p').value,
+                            row.querySelector('.c-l').value,
+                            row.querySelector('.c-t').value,
+                            row.querySelector('.c-kti').value,
+                            row.querySelector('.c-bahan').value
+                        ]);
+                    });
+                    lastGroup = gName;
+                }
             });
 
             const ws = XLSX.utils.aoa_to_sheet(excelData);
-            XLSX.utils.book_append_sheet(wb, ws, "Data Komponen Berkumpulan");
+
+            // AUTO-FIT: Laraskan saiz kelebaran lajur secara automatik supaya kemas & tidak terpotong
+            const colsWidth = [
+                { wch: 10 }, // NO SIKEL
+                { wch: 22 }, // KUMPULAN
+                { wch: 30 }, // NAMA KOMPONEN
+                { wch: 14 }, // PANJANG (P)
+                { wch: 14 }, // LEBAR (L)
+                { wch: 14 }, // TINGGI (T)
+                { wch: 12 }, // KTI (BIL)
+                { wch: 20 }  // BAHAN
+            ];
+            ws['!cols'] = colsWidth;
+
+            XLSX.utils.book_append_sheet(wb, ws, "Data Komponen");
             XLSX.writeFile(wb, `${proj.replace(/\s+/g, '_')}_Router_Sistem_Kumpulan.xlsx`);
         }
 
@@ -424,7 +451,6 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Mulakan paparan kosong bersih tanpa auto-populate data dummy
         renderOutputs();
     </script>
 </body>
